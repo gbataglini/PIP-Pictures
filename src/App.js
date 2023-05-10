@@ -1,4 +1,6 @@
 import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 function App() {
   return (
@@ -33,7 +35,7 @@ function App() {
         </div>
         <div className="box">
               <img src={require('./images/Giovanna.png')}/>
-              <img src={require('./images/Giovanna.png')}/>
+              <img src={require('./images/Kate.png')}/>
               <img src={require('./images/Giovanna.png')}/>
           </div>
           
@@ -51,7 +53,7 @@ function App() {
 
         <div className="box">
           <p>---</p>
-          <p>---</p>
+          <p> Absolutely love dancing, travelling and prosecco! Nowadays I dedicate all my time for my family and looking for my dream job. </p>
           <p>---</p>
         </div>
       </body>
