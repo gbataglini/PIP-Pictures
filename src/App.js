@@ -11,7 +11,7 @@ function App() {
       <body>
         <h2>About Us</h2>
         <div className="box">
-              <img src={require('./images/Giovanna.png')}/>
+              <img src={require('./images/Cassie.PNG')}/>
               <img src={require('./images/Giovanna.png')}/>
               <img src={require('./images/Giovanna.png')}/>
           </div>
@@ -29,7 +29,7 @@ function App() {
         </div>
 
         <div className="box">
-          <p>---</p>
+          <p>My name's Cassie, and I'm avid sewer and knitter.  These things bring me so much joy because there are endless possibilities and it's something you can learn along the way!</p>
           <p>---</p>
           <p>I'm originally from Brazil, but moved to lovely Belfast when I had just turned 18. In my downtime you'll find me either watching some Netflix enjoying a nice cup of coffee, planning my next trip or out for drinks with my friends! </p>
         </div>
@@ -58,7 +58,7 @@ function App() {
         </div>
       </body>
       <footer>
-        <p>Icons generated using <a className='footer-link' href='https://picrew.me/ja/'>picrew</a></p>
+        <p>Icons generated using <a className='footer-link' href='https://picrew.me/en/image_maker/112842' target="_blank">picrew</a></p>
       </footer>
       </div>
   );
