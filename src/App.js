@@ -41,8 +41,8 @@ function App() {
           
         <div className="box">
           <a href="https://github.com/hssanhssein" target="_blank">Hassan Hussein</a>
-          <a href="https://github.com/iliasik" target>Kate Ilyasyuk</a>
-          <a href="https://github.com/Lids02" target>Lida Mnatsakanian</a>
+          <a href="https://github.com/iliasik" target="_blank">Kate Ilyasyuk</a>
+          <a href="https://github.com/Lids02" target="_blank">Lida Mnatsakanian</a>
         </div>
 
         <div className="box">
