@@ -34,13 +34,13 @@ function App() {
           <p>I'm originally from Brazil, but moved to lovely Belfast when I had just turned 18. In my downtime you'll find me either watching some Netflix enjoying a nice cup of coffee, planning my next trip or out for drinks with my friends! </p>
         </div>
         <div className="box">
-              <img src={require('./images/Hassan.png')}/>
+              <img src={require('./images/Giovanna.png')}/>
               <img src={require('./images/Kate.png')}/>
               <img src={require('./images/Lida.PNG')}/>
           </div>
           
         <div className="box">
-          <a href="https://github.com/hssanhssein" target="_blank">Hassan Hussein</a>
+          <a>Hassan Hussein</a>
           <a>Kate Ilyasyuk</a>
           <a>Lida Mnatsakanian</a>
         </div>
@@ -52,7 +52,7 @@ function App() {
         </div>
 
         <div className="box">
-          <p> Hey, I'm Hassan! I'm a big fan of Gaming, Football and Coding. I've always enjoyed learning new things and being creative. This opportunity at Code First Girls has allowed me to learn, continuously challenge myself and meet amazing like-minded people along the way. </p>
+          <p>----</p>
           <p> Absolutely love dancing, travelling and prosecco! Nowadays I dedicate all my time for my family and looking for my dream job. </p>
           <p> Hi! I love basking in the sun, going for long hikes and exploring art galleries. I feel most at home in the mountains somewhere beautiful, but city life has its perks too! Hoping to land my first role in tech this year, preferably somewhere much warmer than England!  </p>
         </div>
