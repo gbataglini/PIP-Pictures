@@ -42,7 +42,7 @@ function App() {
         <div className="box">
           <a href="https://github.com/hssanhssein" target="_blank">Hassan Hussein</a>
           <a href="https://github.com/iliasik" target>Kate Ilyasyuk</a>
-          <a>Lida Mnatsakanian</a>
+          <a href="https://github.com/Lids02" target>Lida Mnatsakanian</a>
         </div>
 
         <div className="box">
