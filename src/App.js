@@ -36,7 +36,7 @@ function App() {
         <div className="box">
               <img src={require('./images/Giovanna.png')}/>
               <img src={require('./images/Kate.png')}/>
-              <img src={require('./images/Giovanna.png')}/>
+              <img src={require('./images/Lida.PNG')}/>
           </div>
           
         <div className="box">
@@ -54,7 +54,7 @@ function App() {
         <div className="box">
           <p>---</p>
           <p> Absolutely love dancing, travelling and prosecco! Nowadays I dedicate all my time for my family and looking for my dream job. </p>
-          <p>---</p>
+          <p> Hi! I love basking in the sun, going for long hikes and exploring art galleries. I feel most at home in the mountains somewhere beautiful, but city life has its perks too! Hoping to land my first role in tech this year, preferably somewhere much warmer than England!  </p>
         </div>
       </body>
       <footer>
