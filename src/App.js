@@ -57,9 +57,6 @@ function App() {
           <p>---</p>
         </div>
       </body>
-      <footer>
-        <p>Icons generated using <a className='footer-link' href='https://picrew.me/en/image_maker/112842' target="_blank">picrew</a></p>
-      </footer>
       </div>
   );
 }
