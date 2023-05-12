@@ -57,9 +57,6 @@ function App() {
           <p> Hi! I love basking in the sun, going for long hikes and exploring art galleries. I feel most at home in the mountains somewhere beautiful, but city life has its perks too! Hoping to land my first role in tech this year, preferably somewhere much warmer than England!  </p>
         </div>
       </body>
-      <footer>
-        <p>Icons generated using <a className='footer-link' href='https://picrew.me/en/image_maker/112842' target="_blank">picrew</a></p>
-      </footer>
       </div>
   );
 }
