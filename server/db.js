@@ -1,8 +1,8 @@
 const mysql = require('mysql2')
 const db = mysql.createConnection({
     host: "localhost",
-    user: "user", // Enter your local server username here
-    password: "password", // Enter your local server password here
+    user: "root", // Enter your local server username here
+    password: "CFG2023!", // Enter your local server password here
     database: "pipdb",
   });
 
