@@ -16,7 +16,7 @@ CREATE TABLE user_info (
 CREATE TABLE movie_info (
   ID INT NOT NULL,
   Title VARCHAR (50) NOT NULL,
-  Description VARCHAR (100) NOT NULL,
+  Description VARCHAR (500) NOT NULL,
   Director VARCHAR (50) NOT NULL,
   Length FLOAT NOT NULL,
   Type VARCHAR (50) NOT NULL,
@@ -49,4 +49,28 @@ VALUES
 ('Test', 'Test', 'test@test.com', 'test123', '123test!', 'Why did the chicken cross the road?', 'To bock traffic')
 ;
 
+INSERT INTO user_stats (
+user_id,
+film_id,
+user_rating,
+status)
+VALUES
+(1, 12, 5.0, 'watched');
+
+INSERT INTO movie_info (
+ID,
+Title,
+Description,
+Director,
+Length,
+Type,
+Image,
+Release_date,
+Rating,
+Available_platform)
+VALUES (
+12, 'Test', 'Test', 'Test', 1.5, 'Test', 'test', '2023-01-01', 5.0, 'test');
+
 SELECT * FROM user_stats;
+SELECT * FROM movie_info;
+SELECT * FROM user_info;
