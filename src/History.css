@@ -1,0 +1,36 @@
+html{
+  background-color: black;
+}
+
+.filmCell {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.filmCover {
+  display: flex;
+  width: 40%;
+}
+.textInfo {
+  text-align: left;
+  text-justify: inter-word;
+  display: flex;
+  margin-left: 15px;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 60%;
+}
+
+p {
+  color: white;
+}
+h2 {
+  color: white;
+  font-size: 35px;
+}
+
+h4 {
+  color: white;
+  font-size: 20px;
+
+}
