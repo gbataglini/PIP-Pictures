@@ -1,10 +1,10 @@
 import './App.css';
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
-import SignUp from './Login/signUp';
-import Login from './Login/Login';
-import Denied from './Login/Denied';
-import ForgotPassword from './Login/forgotPassword';
+import SignUp from './login/signUp';
+import Login from './login/Login';
+import Denied from './login/Denied';
+import ForgotPassword from './login/forgotPassword';
 import Home from './Home';
 import Welcome from './Welcome';
 import History from './History';
