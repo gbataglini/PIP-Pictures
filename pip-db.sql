@@ -2,12 +2,15 @@ CREATE DATABASE pipdb;
 USE pipdb;
 
 CREATE TABLE user_info (
-  user_id INT NOT NULL AUTO_INCREMENT KEY,
+  user_id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(50),
   last_name VARCHAR(50),
   first_name VARCHAR(50),
   username VARCHAR(50),
-  password VARCHAR(50)
+  password VARCHAR(50),
+  security_q VARCHAR(50), 
+  security_a VARCHAR(50),
+  PRIMARY KEY (user_id)
 );
 
 CREATE TABLE movie_info (
@@ -29,5 +32,21 @@ CREATE TABLE user_stats (
   film_id INT NOT NULL,
   user_rating FLOAT NOT NULL,
   status ENUM('watched', 'not watched') NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES user_info(user_id)
+  FOREIGN KEY (user_id) REFERENCES user_info(user_id),
+  FOREIGN KEY (film_id) REFERENCES movie_info(ID)
 );
+
+INSERT INTO user_info (
+first_name,
+last_name,
+email,
+username,
+password,
+security_q,
+security_a)
+VALUES
+('Test', 'Test', 'test@test.com', 'test123', '123test!', 'Why did the chicken cross the road?', 'To bock traffic')
+;
+
+SELECT * FROM user_info;
+
