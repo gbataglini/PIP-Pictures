@@ -6,7 +6,6 @@ import Login from './login/Login';
 import Denied from './login/Denied';
 import ForgotPassword from './login/forgotPassword';
 import Home from './Home';
-import Welcome from './Welcome';
 import History from './History';
 import UserHome from './userHome';
 import UserProfile from './Profile';
@@ -20,7 +19,6 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/forgot_password" element={<ForgotPassword />} />
             <Route path="/denied" element={<Denied />} />
-            <Route path="/welcome" element={<Welcome />} />
             <Route path="/home" element={<UserHome />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />
