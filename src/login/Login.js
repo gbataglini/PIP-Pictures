@@ -5,6 +5,7 @@ import { useState } from 'react';
 import StyledButton from '../button';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
+import Navbar from '../components/NavBar.js';
 
 export default function LoginForm() {
     const [valueA, setValueA] = useState("");
@@ -40,6 +41,7 @@ export default function LoginForm() {
 
     return (
     <>
+    <Navbar />
     <header>
         <h1>Welcome back!</h1>
     </header>
