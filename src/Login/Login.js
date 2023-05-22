@@ -5,7 +5,10 @@ import { useState } from 'react';
 import StyledButton from '../button';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
+<<<<<<< HEAD
 import Navbar from '../components/NavBar.js';
+=======
+>>>>>>> a9440a1 (updated login and denied files)
 
 export default function LoginForm() {
     const [valueA, setValueA] = useState("");
@@ -41,7 +44,10 @@ export default function LoginForm() {
 
     return (
     <>
+<<<<<<< HEAD
     <Navbar />
+=======
+>>>>>>> a9440a1 (updated login and denied files)
     <header>
         <h1>Welcome back!</h1>
     </header>
