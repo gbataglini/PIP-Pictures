@@ -74,3 +74,8 @@ VALUES (
 SELECT * FROM user_stats;
 SELECT * FROM movie_info;
 SELECT * FROM user_info;
+
+INSERT INTO user_info
+(email, last_name, first_name, username, password)
+VALUES
+("test2@test.com", "test2", "test2", "test456", "456test!");
