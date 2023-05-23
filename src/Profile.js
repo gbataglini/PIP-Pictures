@@ -9,6 +9,10 @@ const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalHoursWatched, setTotalHoursWatched] = useState(0);
+  const [numFilmsWatched, setNumFilmsWatched] = useState(0);
+  const [numReviews, setNumReviews] = useState(0);
+  const [filmsData, setFilmsData] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:4000/user_get/1")
@@ -24,9 +28,21 @@ const UserProfile = () => {
         console.error("Error fetching user data:", error);
         setError("Error fetching user data. Please try again later: " + error.message);
         setLoading(false);
-      });   
-    })
-    
+      });
+
+    fetch("http://localhost:4000/profile_get/1/summary")
+      .then((response) => response.json())
+      .then((data) => {
+        const { totalLength, totalWatchedFilms, totalReviews } = data;
+        setTotalHoursWatched(totalLength);
+        setNumFilmsWatched(totalWatchedFilms);
+        setNumReviews(totalReviews);
+      })
+      .catch((error) => {
+        console.error("Error fetching user summary:", error);
+      });
+  }, []);
+
   if (loading) {
     return <div>Loading...</div>; 
   }
@@ -35,13 +51,8 @@ const UserProfile = () => {
     return <div>Error: {error}</div>;
   }
 
-     
   const { last_name, first_name } = userData;
-
   const profilePicture = "logo192.png";
-  const totalHoursWatched = 100;
-  const numFilmsWatched = 50;
-  const numReviews = 10;
 
   return (
     <div>
@@ -80,19 +91,21 @@ const UserProfile = () => {
             <StyledButton text="Update Password" />  
           </div>
           <div className="watched-films">
-            <h2>Reviews</h2>
+            <h2>Watched Films</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Title</th>
+                  <th>Film Title</th>
                   <th>Rating</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Film Title</td>
-                  <td>Rating</td>
-                </tr>
+                {filmsData.map((film) => (
+                  <tr key={film.ID}>
+                    <td>{film.Title}</td>
+                    <td>{film.user_rating}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -101,6 +114,5 @@ const UserProfile = () => {
     </div>
   );
 };
-
 
 export default UserProfile;

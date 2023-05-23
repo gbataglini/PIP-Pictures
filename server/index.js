@@ -132,6 +132,37 @@ app.post('/film_new/:film_id', (req, res) => {
     });
 });
 
+// Route to fetch stats
+app.get('/profile_get/:user_id/summary', (req, res) => {
+  const user_id = req.params.user_id;
+
+  const totalsQuery = `
+    SELECT
+      SUM(mi.Length) AS totalLength,
+      COUNT(us.film_id) AS totalWatchedFilms,
+      COUNT(us.review) AS totalReviews
+    FROM movie_info AS mi
+    JOIN user_stats AS us ON mi.ID = us.film_id
+    WHERE us.user_id = ? AND us.status = 'watched'
+  `;
+
+  db.query(totalsQuery, [user_id], (err, results, fields) => {
+    if (err) throw err;
+
+    const {
+      totalLength = 0,
+      totalWatchedFilms = 0,
+      totalReviews = 0,
+    } = results[0];
+
+    res.json({
+      totalLength,
+      totalWatchedFilms,
+      totalReviews,
+    });
+  });
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
