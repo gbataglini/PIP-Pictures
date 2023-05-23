@@ -1,17 +1,22 @@
 const db = require('./db');
 
 const express = require("express");
+const cors = require('cors');
 
 const app = express();
-const port = 3305;
+const port = 4000;
 
 app.use(express.json());
+app.use(express.urlencoded({
+  extended: true,
+}))
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-// Route to get user ID
+// Route to get user info
 app.get('/user_get/:user_id', (req, res) => {
     const user_id = req.params.user_id;
     console.log(user_id);
@@ -19,6 +24,24 @@ app.get('/user_get/:user_id', (req, res) => {
       if (err) throw err;
       res.json(results);
     });
+});
+
+// Route to get user ID and password
+app.get('/user_get/:username', (req, res) => {
+  const username = req.params.username;
+  db.query('SELECT user_id, username, password FROM user_info WHERE username = ?', [username], (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Route to get security question and answer
+app.get('/user_get/:email', (req, res) => {
+  const email = req.params.email;
+  db.query('SELECT user_id, security_q, security_a FROM user_info WHERE username = ?', [username], (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
 });
 
 // Route to create a new user
