@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import StyledButton from '../button';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
-import Navbar from '../components/NavBar.js';
 // import authentication from './UserAuthentication'
 
 
@@ -31,7 +30,7 @@ export default function LoginForm() {
   useEffect(() => {
     const fetchCreds = async () => {
       try {
-        const response = await fetch('http://localhost:3306/user_get/1')
+        const response = await fetch('http://localhost:4000/user_get/1')
         console.log(response);
         const jsonData = await response.json();
         setUserID(jsonData.user_id);
@@ -57,8 +56,7 @@ export default function LoginForm() {
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      const link = {handleTrigger};
-        nav(link);
+      handleTrigger();
     }
   };
 
