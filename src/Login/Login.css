@@ -1,7 +1,49 @@
 .container {
+    padding: 5rem;
+    display: flex;
+}
+
+.item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    background-color: grey;
+    padding: 10px;
 }
+
+h2 {
+    color: #FFEC3E;
+}
+
+.FormBox {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .button {
+    width: 30px;
+    height: 30px;
+    background-color: #FFEC3E;
+} */
+
+.flex {
+    display: flex;
+    gap: 5rem;
+}
+
+.flex > .item {
+    flex-grow: 1;
+}
+
+.flex > .item:nth-child(1) {
+    flex-grow: 3;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+    color: #FFEC3E;
+    font-size: 15px;
+    text-align: left;
+}
+
