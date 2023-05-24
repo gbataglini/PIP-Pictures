@@ -22,25 +22,25 @@ app.get('/user_get/:user_id', (req, res) => {
     console.log(user_id);
     db.query('SELECT * FROM user_info WHERE user_id = ?', [user_id], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json(results[0]);
     });
 });
 
-// Route to get user ID and password
-app.get('/user_get/:username', (req, res) => {
+// Route to get user ID, username and password
+app.get('/username_get/:username', (req, res) => {
   const username = req.params.username;
   db.query('SELECT user_id, username, password FROM user_info WHERE username = ?', [username], (err, results, fields) => {
     if (err) throw err;
-    res.json(results);
+    res.json(results[0]);
   });
 });
 
 // Route to get security question and answer
-app.get('/user_get/:email', (req, res) => {
+app.get('/security_get/:email', (req, res) => {
   const email = req.params.email;
-  db.query('SELECT user_id, security_q, security_a FROM user_info WHERE username = ?', [username], (err, results, fields) => {
+  db.query('SELECT user_id, security_q, security_a FROM user_info WHERE username = ?', [email], (err, results, fields) => {
     if (err) throw err;
-    res.json(results);
+    res.json(results[0]);
   });
 });
 
@@ -52,9 +52,9 @@ app.post('/user_new', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log(`Adding user...`);
-    db.query('INSERT INTO user_info (first_name, last_name, email, username, password VALUES (?, ?, ?, ?, ?)', [fname, lname, email, username, password], (err, results, fields) => {
+    db.query('INSERT INTO user_info (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)', [fname, lname, email, username, password], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json({ message: `User has been added` });
     });
 });
 
@@ -81,7 +81,7 @@ app.post('/user_update/:user_id', (req, res) => {
     db.query(
         'UPDATE user_info SET user_info.first_name = ?, user_info.last_name = ?, user_info.email = ?, user_info.username = ?, user_info.password = ? WHERE user_info.user_id = ?', [fname, lname, email, username, password], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json({ message: `User, ${user_id}, updated successfully` });
     });
 });
 
@@ -90,7 +90,7 @@ app.get('/stats_get/:user_id', (req, res) => {
     const user_id = req.params.user_id;
     db.query('SELECT * FROM user_stats WHERE user_id = ?', [user_id], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json(results[0]);
     });
 });
 
@@ -100,7 +100,7 @@ app.get('/film_get/:user_id', (req, res) => {
     const status = req.body.status;
     db.query('SELECT * FROM movie_info WHERE ID in (SELECT film_id from user_stats WHERE user_id = ? AND status = ?)', [user_id, status], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json(results[0]);
     });
 });
 
@@ -128,7 +128,7 @@ app.post('/film_new/:film_id', (req, res) => {
     db.query(
         'UPDATE movie_info SET movie_info.film_id = ?, movie_info.title = ?, movie_info.description = ?, movie_info.director = ?, movie_info.length = ?, movie_info.type = ?, movie_info.image = ?, movie_info.release_date = ?, movie_info.rating = ?, movie_info.available_platform = ?', [film_id, title, description, director, length, type, image, release_date, rating, platform], (err, results, fields) => {
       if (err) throw err;
-      res.json(results);
+      res.json({ message: `Film added successfully` });
     });
 });
 
