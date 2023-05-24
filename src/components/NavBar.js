@@ -20,7 +20,7 @@ const pages = [{
   path: '/userHome'
 }, {
   title: 'To Watch',
-  path: '/toWatch'
+  path: '/to_watch'
 }, {
   title: 'Watched',
   path: '/History'
