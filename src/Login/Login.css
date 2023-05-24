@@ -21,11 +21,11 @@ h2 {
     flex-direction: column;
 }
 
-/* .button {
-    width: 30px;
-    height: 30px;
+button {
+    /* width: 30px;
+    height: 30px; */
     background-color: #FFEC3E;
-} */
+}
 
 .flex {
     display: flex;
