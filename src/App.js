@@ -20,7 +20,7 @@ export default function App() {
             <Route path="/forgot_password" element={<ForgotPassword />} />
             <Route path="/denied" element={<Denied />} />
             <Route path="/home" element={<UserHome />} />
-            <Route path="/to_watch" element={<ToWatch />} />
+            <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />
                     </Routes>
