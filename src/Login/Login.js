@@ -2,69 +2,75 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { useState, useEffect } from 'react';
-import StyledButton from '../button';
+
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
-import Navbar from '../components/NavBar.js';
-// import authentication from './UserAuthentication'
 
 
 export default function LoginForm() {
-  const [triggered, setTriggered] = useState(false);
-  const [valueA, setValueA] = useState("");
-  const [valueB, setValueB] = useState("");
-  const [data,setData] = useState([]);
-  const [userID, setUserID] = useState("");
-  const [usernameTrue, setUsernameTrue] = useState("");
-  const [passwordTrue, setPasswordTrue] = useState("");
-    
+  const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+
   const nav = useNavigate();
 
-  const handleChangeA = e => {
-    setValueA(e.target.value);
+  const handleChangeUsername = e => {
+    setUsernameInput(e.target.value);
   };
 
-  const handlechangeB = e => {
-    setValueB(e.target.value);
+  const handleChangePassword = e => {
+    setPasswordInput(e.target.value);
   };
 
-  useEffect(() => {
-    const fetchCreds = async () => {
-      try {
-        const response = await fetch('http://localhost:3306/user_get/1')
-        console.log(response);
-        const jsonData = await response.json();
-        setUserID(jsonData.user_id);
-        setUsernameTrue(jsonData.username);
-        setPasswordTrue(jsonData.password);
-      } catch (error) {
-        console.log('Error fetching data:', error);
-      }
+  const fetchCreds = async () => {
+    console.log(`doing something`)
 
-      if (usernameTrue === valueA && passwordTrue === valueB) {
-        console.log(`yes`)
-        nav(<link to="/home"></link>);
-      } else {
-        console.log(`no`)
-        nav(<link to="/denied"></link>)
-      }
+    let userID='';
+    let username='';
+    let password='';
+    let data = '';
+
+    try {
+      const response = await fetch(`http://localhost:4000/username_get/${usernameInput}`)
+      console.log(response);
+      const jsonData = await response.json();
+      userID = (jsonData.user_id);
+      username = (jsonData.username);
+      password = (jsonData.password);
+    } catch (error) {
+      console.log('Error fetching data:', error);
     }
-  }, [triggered]);
+
+    if (usernameInput === '' || passwordInput === '') {
+      console.log(`hi`)
+      nav("/denied")
+    }
+
+    else if (username === usernameInput && password === passwordInput) {
+      console.log(`yes`)
+      nav("/home");
+    } else {
+      console.log(`no`)
+      console.log(username)
+      console.log(usernameInput)
+      console.log(data)
+      nav("/denied")
+      return
+    }
+  }
 
   const handleTrigger = () => {
-    setTriggered(true);
+    fetchCreds()
   };
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      const link = {handleTrigger};
-        nav(link);
+      fetchCreds();
     }
   };
 
   return (
-    <div className="container flex">
-      <div className="item">(photo)</div>
+    <div>
+      <div className="container flex">
 
       <div className="item">
         <header>
@@ -75,6 +81,10 @@ export default function LoginForm() {
         className="FormBox"
         sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root': {color: '#FFEC3E'},
+        '& .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {color: '#FFEC3E'},
+        '& .MuiFormLabel-colorPrimary': {color: '#FFEC3E'},
+        '& .MuiInputLabel-animated': {color: '#FFEC3E'}
         }}
         noValidate
         autoComplete="off"
@@ -83,9 +93,9 @@ export default function LoginForm() {
             <TextField
             id="usernameInput"
             label="Username"
-            value={valueA}
+            value={usernameInput}
             type="username"
-            onChange={handleChangeA}
+            onChange={handleChangeUsername}
             onKeyDown={handleKeyPress}
             />
           </FormControl>
@@ -93,15 +103,17 @@ export default function LoginForm() {
             <TextField
             id="passwordInput"
             label="Password"
-            value={valueB}
+            value={passwordInput}
             type="password"
-            onChange={handlechangeB}
+            onChange={handleChangePassword}
             onKeyDown={handleKeyPress}
             />
           </FormControl>
         </Box>
-        <StyledButton className="button" onClick={handleTrigger}>Login</StyledButton>
+        <button onClick={handleTrigger}>Login</button>
       </div>
     </div>
+    </div>
+    
   );
 }
