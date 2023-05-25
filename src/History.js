@@ -26,7 +26,7 @@ const movies = [{
     review: '',
     thumbnail: 'https://flxt.tmsimg.com/assets/p22992499_b_v13_ab.jpg'
   }, {
-    title: 'Euphoria',
+    title: 'Test',
     rating: 2,
     review: '',
     thumbnail: 'https://i.ebayimg.com/images/g/dPkAAOSw6LZec910/s-l1600.jpg'
