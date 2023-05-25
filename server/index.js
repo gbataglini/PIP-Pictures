@@ -16,13 +16,13 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-// Route to get user info
+// Route to get user info (used in Profile )
 app.get('/user_get/:user_id', (req, res) => {
     const user_id = req.params.user_id;
     console.log(user_id);
     db.query('SELECT * FROM user_info WHERE user_id = ?', [user_id], (err, results, fields) => {
       if (err) throw err;
-      res.json(results[0]);
+      res.json(results);
     });
 });
 
@@ -132,7 +132,7 @@ app.post('/film_new/:film_id', (req, res) => {
     });
 });
 
-// Route to fetch stats
+// Route to fetch stats (used in Profile)
 app.get('/profile_get/:user_id/summary', (req, res) => {
   const user_id = req.params.user_id;
 
@@ -162,6 +162,7 @@ app.get('/profile_get/:user_id/summary', (req, res) => {
     });
   });
 });
+
 
 // Route to see rating (used in History)
 app.get('/get-rating/:user_id/:film_id/', (req, res) => {
@@ -203,6 +204,36 @@ app.get('/get-rating/:user_id/:film_id/', (req, res) => {
 
    });
  }); 
+
+// Route to update user email (used in Profile)
+app.post('/user_update_email/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const email = req.body.email;
+
+  const updateEmailQuery = 'UPDATE user_info SET email = ? WHERE user_id = ?';
+  const queryParams = [email, user_id];
+
+  db.query(updateEmailQuery, queryParams, (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Route to update user password (used in Profile)
+app.post('/user_update_password/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const password = req.body.password;
+
+  const updatePasswordQuery = 'UPDATE user_info SET password = ? WHERE user_id = ?';
+  const queryParams = [password, user_id];
+
+  db.query(updatePasswordQuery, queryParams, (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
