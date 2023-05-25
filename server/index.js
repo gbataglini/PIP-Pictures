@@ -163,6 +163,47 @@ app.get('/profile_get/:user_id/summary', (req, res) => {
   });
 });
 
+// Route to see rating (used in History)
+app.get('/get-rating/:user_id/:film_id/', (req, res) => {
+  const user_id = req.params.user_id;
+  const film_id = req.params.film_id;
+  db.query(
+    `SELECT user_rating AS userRating, review AS userReview FROM user_stats 
+    WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_id, film_id], (err, results, fields) => {
+      if (err) throw err;
+      const {
+        userRating = 0,
+        userReview = '',
+      } = results[0];
+      
+      res.status(200).json({
+        userRating, 
+        userReview
+      });
+
+     });
+  });
+
+// Route to post/update rating (used in History)
+
+  app.patch('/update-rating/:user_id/:film_id', (req, res) => {
+    const user_id = req.params.user_id;
+    const film_id = req.params.film_id;
+    const user_rating = req.body.rating;
+    const user_review = req.body.review;
+
+    db.query(
+      `UPDATE user_stats 
+      SET user_rating = IFNULL(?, user_rating), review = IFNULL(?, review)
+      WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_rating, user_review, user_id, film_id], (err, results, fields) => {
+    
+      res.status(200).json({
+        message: `Review/Rating for film ${film_id} updated successfully.`
+     });
+
+   });
+ }); 
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
