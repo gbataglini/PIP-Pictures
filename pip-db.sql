@@ -14,13 +14,13 @@ CREATE TABLE user_info (
 );
 
 CREATE TABLE movie_info (
-  ID INT NOT NULL,
+  ID VARCHAR(50) NOT NULL,
   Title VARCHAR (50) NOT NULL,
   Description VARCHAR (500) NOT NULL,
   Director VARCHAR (50) NOT NULL,
   Length FLOAT NOT NULL,
   Type VARCHAR (50) NOT NULL,
-  Image BLOB,
+  Image TEXT,
   Release_date DATE,
   Rating FLOAT NOT NULL,
   Available_Platform VARCHAR (50),
@@ -29,8 +29,8 @@ CREATE TABLE movie_info (
 
 CREATE TABLE user_stats (
   user_id INT NOT NULL,
-  film_id INT NOT NULL,
-  user_rating FLOAT NOT NULL,
+  film_id VARCHAR(50) NOT NULL,
+  user_rating FLOAT NOT NULL DEFAULT 0,
   review VARCHAR(1000),
   status ENUM('watched', 'not watched') NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user_info(user_id),
