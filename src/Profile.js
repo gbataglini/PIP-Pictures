@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavBar from './components/NavBar.js';
-import StyledButton from './button';
+import StyledButton from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 const UserProfile = () => {

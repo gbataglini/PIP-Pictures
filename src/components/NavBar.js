@@ -17,18 +17,18 @@ import {Link} from "react-router-dom"
 
 const pages = [{
   title: 'Home',
-  path: '/userHome'
+  path: '/home'
 }, {
   title: 'To Watch',
-  path: '/toWatch'
+  path: '/to-watch'
 }, {
   title: 'Watched',
-  path: '/History'
+  path: '/history'
 }];
 
 const settings = [{
   title: 'Profile',
-  path: '/Profile'
+  path: '/profile'
 }, {
   title: 'Logout',
   path: '/'
@@ -179,7 +179,13 @@ function NavBar() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '50px', a: {color: 'black', fontSize: '15px', padding: '0px'} }}
+              sx={{ mt: '50px', a: {
+                '&:hover': {
+                  color: "black"},
+                color: 'black', 
+                fontSize: '15px', 
+                padding: '0px'}}}
+
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
