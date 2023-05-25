@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import NavBar from './components/NavBar.js';
 import StyledButton from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+
 
 const UserProfile = () => {
   const [username, setUsername] = useState("");
@@ -13,7 +19,64 @@ const UserProfile = () => {
   const [numFilmsWatched, setNumFilmsWatched] = useState(0);
   const [numReviews, setNumReviews] = useState(0);
   const [filmsData, setFilmsData] = useState([]);
+  const [openEmailDialog, setOpenEmailDialog] = useState(false);
+  const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
+  const handleOpenEmailDialog = () => {
+    setOpenEmailDialog(true);
+  };
+  
+  const handleCloseEmailDialog = () => {
+    setOpenEmailDialog(false);
+    setNewEmail('');
+  };
+  
+  const handleOpenPasswordDialog = () => {
+    setOpenPasswordDialog(true);
+  };
+  
+  const handleClosePasswordDialog = () => {
+    setOpenPasswordDialog(false);
+    setNewPassword('');
+  };
+  const handleUpdateEmail = () => {
+    fetch(`http://localhost:4000/user_update_email/${userData.user_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: newEmail }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        handleCloseEmailDialog();
+      })
+      .catch((error) => {
+        console.error('Error updating email:', error);
+      });
+  };
+  
+  const handleUpdatePassword = () => {
+    fetch(`http://localhost:4000/user_update_password/${userData.user_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: newPassword }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        handleClosePasswordDialog();
+      })
+      .catch((error) => {
+        console.error('Error updating password:', error);
+      });
+  };
+  
   useEffect(() => {
     fetch("http://localhost:4000/user_get/1")
       .then((response) => response.json())
@@ -72,7 +135,6 @@ const UserProfile = () => {
           <div className="user-info">
             <img src={profilePicture} alt="Profile Picture" />
             <h2>{username}</h2>
-            <StyledButton text="Update Profile Picture" />
           </div>
           <div className="user-stats">
             <h2>User stats</h2>
@@ -87,8 +149,36 @@ const UserProfile = () => {
             <h2>Account Details</h2>
             <h4>Name: {first_name} {last_name}</h4>
             <h4>Email: {email}</h4>
-            <StyledButton text="Update Email" />
-            <StyledButton text="Update Password" />  
+            <StyledButton onClick={handleOpenEmailDialog}>Update Email</StyledButton>           
+<Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
+  <DialogTitle>Update Email</DialogTitle>
+  <DialogContent>
+    <TextField
+      label="Enter New Email"
+      value={newEmail}
+      onChange={(e) => setNewEmail(e.target.value)}
+    />
+  </DialogContent>
+  <DialogActions>
+    <StyledButton onClick={handleCloseEmailDialog}>Cancel</StyledButton>
+    <StyledButton onClick={handleUpdateEmail}>Update</StyledButton>
+  </DialogActions>
+</Dialog>
+             <StyledButton onClick={handleOpenPasswordDialog}>Update Password</StyledButton>
+<Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
+  <DialogTitle>Update Password</DialogTitle>
+  <DialogContent>
+    <TextField
+      label="Enter New Password"
+      value={newPassword}
+      onChange={(e) => setNewPassword(e.target.value)}
+    />
+  </DialogContent>
+  <DialogActions>
+    <StyledButton onClick={handleClosePasswordDialog}>Cancel</StyledButton>
+    <StyledButton onClick={handleUpdatePassword}>Update</StyledButton>
+  </DialogActions>
+</Dialog>
           </div>
           <div className="watched-films">
             <h2>Watched Films</h2>
