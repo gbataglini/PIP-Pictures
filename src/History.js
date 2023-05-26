@@ -8,29 +8,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import TextField from '@mui/material/TextField';
 
-
-const movies = [{
-    title: 'Succession',
-    rating: 5,
-    review: '',
-    thumbnail: 'https://deadline.com/wp-content/uploads/2021/09/Succession-season-3-key-art.jpg'
-  }, {
-    title: 'Desperate Housewives',
-    rating: 4.5,
-    review: '',
-    thumbnail: 'https://m.media-amazon.com/images/I/91IH97AUuGL._AC_SL1500_.jpg'
-  }, {
-    title: 'White Lotus',
-    rating: 3,
-    review: '',
-    thumbnail: 'https://flxt.tmsimg.com/assets/p22992499_b_v13_ab.jpg'
-  }, {
-    title: 'Test',
-    rating: 2,
-    review: '',
-    thumbnail: 'https://i.ebayimg.com/images/g/dPkAAOSw6LZec910/s-l1600.jpg'
-  }]
   
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -53,15 +32,29 @@ const movies = [{
   });
   
     function History() {
-    
+
+      const [watched, setWatched] = React.useState([])
+      const [ignored, forceUpdate] = React.useState(false)
+
+      React.useEffect(() => {
+        fetch("http://localhost:4000/all-watched/1/")
+        .then((response) => response.json())
+        .then((watchedFilms) => {
+          setWatched(watchedFilms);
+        });
+      }, []);
+
+      React.useEffect(() => {
+      }, [forceUpdate])
+
       return (
-        <Box sx={{ flexGrow: 1 }}>
-              <Navbar 
-      />  
+      <Box sx={{ flexGrow: 1 }}>
+          <Navbar />  
+
       <Box sx={{ flexGrow: 1, padding: 5 }}>  
   
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {Array.from(movies).map((movie, index) => (
+        {Array.from(watched).map((movie, index) => (
   
           <Grid xs={2} sm={4} md={4} key={index}>
             <Item>
@@ -79,10 +72,85 @@ const movies = [{
                     getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                     precision={0.5}
                     icon={<StarIcon fontSize="inherit" />}
+                    onChange={(event, newValue) => {
+                      if (newValue != null) {
+                       fetch(`http://localhost:4000/update-rating/1/${movie.movieId}`, {
+                         headers: {
+                           Accept: "application/json",
+                           "Content-Type": "application/json"
+                         },
+                         method: "PATCH",	
+
+                         body: JSON.stringify({
+                           rating: newValue
+                         })
+                       }).then((response) => {
+                          setWatched(watched);
+                       })
+                       watched[index].rating = newValue
+                       forceUpdate(!ignored)
+                      }
+
+                   }}
                   />
-                <h4>Review</h4>
-                <p>{movie.review}</p>
-  
+
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    paddingTop: '25px'
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                <TextField
+                  className=''
+                  id="outlined-multiline-flexible"
+                  defaultValue={movie.review}
+                  label="Review"
+                  variant="outlined"
+                  multiline
+                  InputProps={{
+                    style: {color: 'white'}
+                    }
+                  }
+                  InputLabelProps={{
+                    style: { color: '#fff'
+                    },
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: '#FFEC3E', 
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#FFEC3E', 
+                      },
+                    },
+                    '& .MuiFormLabel-root': {
+                      borderColor: '#FFEC3E',
+                    }
+
+                  }}
+                  maxRows={15}
+
+                  onChange={(event) => {
+                    if (event.target.value != null) {
+                     fetch(`http://localhost:4000/update-rating/1/${movie.movieId}`, {
+                       headers: {
+                         Accept: "application/json",
+                         "Content-Type": "application/json"
+                       },
+                       method: "PATCH",	
+
+                       body: JSON.stringify({
+                         review: event.target.value
+                       })
+                     })
+                    }
+                 }}
+                />
+                </Box>
               </div>
             </div>
             </Item>
