@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import './Profile.css';
 import NavBar from './components/NavBar.js';
-import StyledButton from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 
 const UserProfile = () => {
@@ -18,11 +20,12 @@ const UserProfile = () => {
   const [totalHoursWatched, setTotalHoursWatched] = useState(0);
   const [numFilmsWatched, setNumFilmsWatched] = useState(0);
   const [numReviews, setNumReviews] = useState(0);
-  const [filmsData, setFilmsData] = useState([]);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [title, setTitle] = useState([]);
+  const [user_rating, setRating] = useState([]);
 
   const handleOpenEmailDialog = () => {
     setOpenEmailDialog(true);
@@ -93,7 +96,21 @@ const UserProfile = () => {
         setLoading(false);
       });
 
-    fetch("http://localhost:4000/profile_get/1/summary")
+
+    
+     fetch("http://localhost:4000/profile_get/1/review")
+     .then((response) => response.json())
+     .then((data) => {
+       const titles = data.map((review) => review.title);
+       const ratings = data.map((review) => review.user_rating);
+       setTitle(titles);
+       setRating(ratings);
+     })
+     .catch((error) => {
+       console.error("Error fetching user rating:", error);
+     });
+   
+      fetch("http://localhost:4000/profile_get/1/summary")
       .then((response) => response.json())
       .then((data) => {
         const { totalLength, totalWatchedFilms, totalReviews } = data;
@@ -115,7 +132,6 @@ const UserProfile = () => {
   }
 
   const { last_name, first_name } = userData;
-  const profilePicture = "logo192.png";
 
   return (
     <div>
@@ -133,7 +149,7 @@ const UserProfile = () => {
       >
         <div className="box">
           <div className="user-info">
-            <img src={profilePicture} alt="Profile Picture" />
+            <img style={{ padding: 0 }} width="200" height="200" src="https://img.icons8.com/ios-glyphs/30/FFEC3E/cat-profile--v1.svg" alt="cat-profile--v1"/>
             <h2>{username}</h2>
           </div>
           <div className="user-stats">
@@ -149,60 +165,67 @@ const UserProfile = () => {
             <h2>Account Details</h2>
             <h4>Name: {first_name} {last_name}</h4>
             <h4>Email: {email}</h4>
-            <StyledButton onClick={handleOpenEmailDialog}>Update Email</StyledButton>           
-<Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
-  <DialogTitle>Update Email</DialogTitle>
-  <DialogContent>
-    <TextField
-      label="Enter New Email"
-      value={newEmail}
-      onChange={(e) => setNewEmail(e.target.value)}
-    />
-  </DialogContent>
-  <DialogActions>
-    <StyledButton onClick={handleCloseEmailDialog}>Cancel</StyledButton>
-    <StyledButton onClick={handleUpdateEmail}>Update</StyledButton>
-  </DialogActions>
-</Dialog>
-             <StyledButton onClick={handleOpenPasswordDialog}>Update Password</StyledButton>
-<Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
-  <DialogTitle>Update Password</DialogTitle>
-  <DialogContent>
-    <TextField
-      label="Enter New Password"
-      value={newPassword}
-      onChange={(e) => setNewPassword(e.target.value)}
-    />
-  </DialogContent>
-  <DialogActions>
-    <StyledButton onClick={handleClosePasswordDialog}>Cancel</StyledButton>
-    <StyledButton onClick={handleUpdatePassword}>Update</StyledButton>
-  </DialogActions>
-</Dialog>
-          </div>
-          <div className="watched-films">
-            <h2>Watched Films</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Film Title</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filmsData.map((film) => (
-                  <tr key={film.ID}>
-                    <td>{film.Title}</td>
-                    <td>{film.user_rating}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+            <button className="StyledButton1" onClick={handleOpenEmailDialog}>Update email</button>     
+              <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
+                <DialogTitle></DialogTitle>
+                <DialogContent>
+                 <TextField 
+                  label="Enter New Email"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                 />
+                </DialogContent>
+                <DialogActions>
+                 <button className="StyledButton1" onClick={handleCloseEmailDialog}>Cancel</button>
+                 <button className="StyledButton1" onClick={handleUpdateEmail}>Update</button>
+                </DialogActions>
+              </Dialog>
+
+             <button className="StyledButton1" onClick={handleOpenPasswordDialog}>Update Password</button>
+              <Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
+               <DialogTitle>Update Password</DialogTitle>
+               <DialogContent>
+               <TextField 
+                label="Enter New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+               />
+              </DialogContent>
+              <DialogActions>
+               <button className="StyledButton1" onClick={handleClosePasswordDialog}>Cancel</button>
+               <button className="StyledButton1"onClick={handleUpdatePassword}>Update</button>
+              </DialogActions>
+              </Dialog>
+      </div>
+<div className="watched-films">
+  <h2>Watched Films</h2>
+  <table className="films-table">
+    <tbody>
+      {title && user_rating && title.map((filmTitle, index) => (
+          <tr key={index}>
+            <td>
+              <h4>{filmTitle}</h4>
+            </td>
+            <td>
+            <h4>
+              <Rating
+                value={user_rating[index]}
+                name={`rating-${index}`}
+                precision={0.5}
+                icon={<StarIcon fontSize="inherit" />}
+                readOnly
+              />
+            </h4>
+            </td>
+          </tr>
+        ))}
+    </tbody>
+  </table>
+</div>
+</div>
       </Box>
-    </div>
-  );
-};
+</div>
+  
+)};
 
 export default UserProfile;
