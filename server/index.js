@@ -138,7 +138,7 @@ app.get('/profile_get/:user_id/summary', (req, res) => {
 
   const totalsQuery = `
     SELECT
-      SUM(mi.Length) AS totalLength,
+      FORMAT(SUM(mi.Length / 60), 2) AS totalLength,
       COUNT(us.film_id) AS totalWatchedFilms,
       COUNT(us.review) AS totalReviews
     FROM movie_info AS mi
@@ -191,6 +191,28 @@ app.post('/user_update_password/:user_id', (req, res) => {
   });
 });
 
+// Route to get movie_title and rating (used in Profile)
+app.get('/profile_get/:user_id/review', (req, res) => {
+  const user_id = req.params.user_id;
+
+  const reviewQuery = `
+    SELECT
+    mi.title, us.user_rating 
+    FROM movie_info AS mi
+    JOIN user_stats AS us ON mi.ID = us.film_id
+    WHERE us.user_id = ? AND us.status = 'watched'
+  `;
+
+  db.query(reviewQuery, [user_id], (err, results, fields) => {
+    if (err) throw err;
+
+    const title = req.body.title
+    const rating = req.body.user_rating;
+    
+
+    res.json(results);
+  });
+});
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
