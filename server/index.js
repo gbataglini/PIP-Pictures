@@ -312,7 +312,7 @@ app.get('/all-toWatch/:user_id/', (req, res) => {
  });
 }); 
 
-app.get('/random-film/:user_id/', (req, res) => {
+  app.get('/random-film/:user_id/', (req, res) => {
   const user_id = req.params.user_id;
   db.query(
     `SELECT 
@@ -330,7 +330,7 @@ app.get('/random-film/:user_id/', (req, res) => {
 
     [user_id], (err, results, fields) => {
       if (err) throw err;
-      res.status(200).json(results);
+      res.status(200).json(results[0]);
  });
 }); 
 

@@ -1,8 +1,7 @@
-
-  .watched-films h2 {
+ .watched-films h2 {
     margin-bottom: 10px; 
   }
-  
+
   .films-table td:first-child {
     width: 50%; 
   }
@@ -20,7 +19,7 @@
     font-size: 16px;
     cursor: pointer;
   }
-  
+
   .StyledButton1:hover {
     background-color: #353131;
     color: #FFEC3E;

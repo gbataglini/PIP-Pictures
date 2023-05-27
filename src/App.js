@@ -4,7 +4,7 @@ import {Routes, Route} from 'react-router-dom';
 import SignUpForm from './Login/signUp';
 import LoginForm from './Login/Login';
 import ForgotPassword from './Login/forgotPassword';
-import Home from './Home';
+import UserHome from './userHome';
 import History from './History';
 import Hero from './Hero';
 import UserProfile from './Profile';
@@ -17,7 +17,7 @@ export default function App() {
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/forgot_password" element={<ForgotPassword />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<UserHome />} />
             <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />

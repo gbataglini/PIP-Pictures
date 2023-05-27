@@ -4,7 +4,7 @@ import './userHome.css';
 import Row from './Row.js';
 import requests from './requests.js';
 
-function userHome() {
+function UserHome() {
     return(
 
         
@@ -14,10 +14,9 @@ function userHome() {
           <Row title="Trending Now" fetchUrl={requests.fetchTrending} />
           <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
           <Row title="Upcoming" fetchUrl={requests.fetchUpComing} />
-        
-
+    
         </div>
     );
 }
 
-export default userHome;
+export default UserHome;
