@@ -21,6 +21,6 @@ export default function App() {
             <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />
-                    </Routes>
+        </Routes>
     );
 }
