@@ -197,13 +197,38 @@ app.get('/get-rating/:user_id/:film_id/', (req, res) => {
       `UPDATE user_stats 
       SET user_rating = IFNULL(?, user_rating), review = IFNULL(?, review)
       WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_rating, user_review, user_id, film_id], (err, results, fields) => {
-    
+      
+      if (err) throw err;
       res.status(200).json({
         message: `Review/Rating for film ${film_id} updated successfully.`
      });
 
    });
  }); 
+
+
+
+// Route to get watched films and user_stats (used in History page )
+
+app.get('/all-watched/:user_id/', (req, res) => {
+  const user_id = req.params.user_id;
+
+  db.query(
+    `SELECT 
+    mi.ID AS movieId, 
+    mi.Title AS title,
+    mi.Image AS thumbnail, 
+    us.user_rating AS rating, 
+    us.review AS review
+    FROM movie_info AS mi 
+    JOIN user_stats AS us ON us.film_id = mi.ID
+    WHERE us.user_id = ? AND us.status = 'watched';`, 
+    [user_id], (err, results, fields) => {
+      if (err) throw err;
+      res.status(200).json(results);
+
+ });
+}); 
 
 // Route to update user email (used in Profile)
 app.post('/user_update_email/:user_id', (req, res) => {
@@ -258,5 +283,5 @@ app.get('/profile_get/:user_id/review', (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+console.log(`App listening at http://localhost:${port}`);
 });
