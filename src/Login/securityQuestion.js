@@ -8,13 +8,17 @@ export default function QuestionDisplay({question, answer}) {
     const nav = useNavigate();
     const [answerInput, setAnswerInput] = useState("");
 
+    //TODO: add for loop that only allows three attempts before being routed to signup page
     const AnswerCheck = () => {
         if (answerInput === answer) {
             nav('/home');
-        } else alert(`Answer not correct`)
+        } else {
+            alert(`Answer not correct`)
+            return
+        }
     }
 
-    const handleKeyPressB = e => {
+    const handleKeyPress = e => {
         if (e.key === 'Enter') {
           AnswerCheck();
         }
@@ -48,7 +52,7 @@ export default function QuestionDisplay({question, answer}) {
                 value={answerInput}
                 type="answer"
                 onChange={handleChangeAnswer}
-                onKeyDown= {handleKeyPressB}/>
+                onKeyDown= {handleKeyPress}/>
                 </FormControl>
                 </Box>
             </div>

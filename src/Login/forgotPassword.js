@@ -28,7 +28,7 @@ export default function ForgotPassword() {
             const jsonData = await response.json();
             securityQ = (jsonData.security_q);
             securityA = (jsonData.security_a);
-            // setDisplayQuestion(true);
+            setDisplayQuestion(true);
         } catch (error) {
             console.log('Error fetching data:', error);
             alert("Email address not recognised.");
@@ -36,12 +36,12 @@ export default function ForgotPassword() {
         setDisplayQuestion(true);
         setSecurityQuestion(securityQ);
         setSecurityAnswer(securityA);
-        // return <QuestionDisplay question={securityQ} answer={securityA} />
     }
 
     const handleKeyPress = async (e) => {
         if (e.key === 'Enter') {
-          await SecurityCheck();
+            e.preventDefault();
+            await SecurityCheck();
         }
       };
 

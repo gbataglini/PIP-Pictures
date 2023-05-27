@@ -17,7 +17,6 @@ export default function App() {
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/forgot_password" element={<ForgotPassword />} />
-            <Route path="/denied" element={<Denied />} />
             <Route path="/home" element={<Home />} />
             <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
