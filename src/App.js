@@ -3,7 +3,6 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import SignUpForm from './Login/signUp';
 import LoginForm from './Login/Login';
-import Denied from './Login/denied';
 import ForgotPassword from './Login/forgotPassword';
 import Home from './Home';
 import History from './History';
