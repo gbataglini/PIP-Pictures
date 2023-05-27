@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './History.css';
-import './Profile.css'
+import './Profile.css';
+import header from './header.png';
 import Navbar from './components/NavBar.js';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -8,8 +9,14 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
-import PropTypes from 'prop-types';
 import Slider, { SliderThumb } from '@mui/material/Slider';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -71,18 +78,26 @@ const Item = styled(Paper)(({ theme }) => ({
       color: 'grey'
     }
   });
+  
 
 export default function ToWatch() {
     const [ToWatch, SetToWatch] = useState([])
     const [progress, setProgress] = useState(0)
+    const [randomFilm, setRandomFilm] = React.useState({})
+
 
     useEffect(() => {
         fetch("http://localhost:4000/all-toWatch/1/")
-        .then((response) => response.json())
-        .then((ToWatch) => {
-          SetToWatch(ToWatch);
-        });
+          .then((response) => response.json())
+          .then((ToWatch) => {
+            SetToWatch(ToWatch);
+          });
       }, []);
+
+      useEffect(() => {
+        console.log(randomFilm)
+      }, [randomFilm]);
+
 
       const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
@@ -90,9 +105,59 @@ export default function ToWatch() {
         }
     })
 
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  
+    const handleClickOpen = () => {
+      fetch("http://localhost:4000/random-film/1/")
+          .then((response) => response.json())
+          .then((randomFilm) => {
+            setRandomFilm(randomFilm);
+          });
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     return (
     <Box sx={{ flexGrow: 1 }}>
-      <Navbar /> 
+
+      <div style = {{backgroundImage: `url(${header})`, 
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      height: '500px',
+      backgroundColor: 'rgba(0, 0, 0, 0.9)'
+    }}>
+        <Navbar/> 
+          <header style = {{justifyContent: 'start', lineHeight: '150px', alignItems: 'flex-start', paddingLeft: '120px'}}>
+            <h1 style = {{color:'#FFEC3E'}}> To Watch </h1>
+            <h3>Too many options? </h3>
+            <button className="StyledButton1" onClick={handleClickOpen}> Pick for me! </button> 
+            <Dialog
+               PaperProps={{ style: { backgroundColor: '#181818'} }}
+               fullScreen={fullScreen}
+               open={open}
+               onClose={handleClose}
+               aria-labelledby="responsive-dialog-title"
+            >
+              <DialogTitle id="responsive-dialog-title" sx={{color: '#FFEC3E', fontSize: '30px'}}>
+                {randomFilm.title}
+              </DialogTitle>
+              <DialogContent style = {{alignItems: 'center'}}>
+               <img src={randomFilm.thumbnail} center/>
+              </DialogContent>
+              <DialogActions>
+                <button className="StyledButton1"  onClick={handleClose} autoFocus>
+                  Close
+                </button>
+              </DialogActions>
+          </Dialog>    
+
+          </header>
+      </div>
 
     <Box sx={{ flexGrow: 1, padding: 5 }}>  
 

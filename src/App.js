@@ -5,7 +5,7 @@ import SignUpForm from './Login/signUp';
 import LoginForm from './Login/Login';
 import Denied from './Login/denied';
 import ForgotPassword from './Login/forgotPassword';
-import Home from './Home';
+import UserHome from './userHome';
 import History from './History';
 import Hero from './Hero';
 import UserProfile from './Profile';
@@ -19,7 +19,7 @@ export default function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/forgot_password" element={<ForgotPassword />} />
             <Route path="/denied" element={<Denied />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<UserHome />} />
             <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />
