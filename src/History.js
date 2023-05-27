@@ -60,7 +60,7 @@ import TextField from '@mui/material/TextField';
             <Item>
             <div className="filmCell">
               <div classname="filmCover">
-                <img src={movie.thumbnail} width='325' height='450' alt="succession"/>
+                <img src={movie.thumbnail} width='325' height='450' alt="movie poster"/>
               </div>
               <div className="textInfo">
                 <h2>{movie.title}</h2>
@@ -68,13 +68,12 @@ import TextField from '@mui/material/TextField';
                   <StyledRating
                     value={movie.rating}
                     name="customized-color"
-                    defaultValue={2}
                     getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                     precision={0.5}
                     icon={<StarIcon fontSize="inherit" />}
                     onChange={(event, newValue) => {
                       if (newValue != null) {
-                       fetch(`http://localhost:4000/update-rating/1/${movie.movieId}`, {
+                       fetch(`http://localhost:4000/update-stats/1/${movie.movieId}`, {
                          headers: {
                            Accept: "application/json",
                            "Content-Type": "application/json"
@@ -136,7 +135,7 @@ import TextField from '@mui/material/TextField';
 
                   onChange={(event) => {
                     if (event.target.value != null) {
-                     fetch(`http://localhost:4000/update-rating/1/${movie.movieId}`, {
+                     fetch(`http://localhost:4000/update-stats/1/${movie.movieId}`, {
                        headers: {
                          Accept: "application/json",
                          "Content-Type": "application/json"

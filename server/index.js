@@ -187,16 +187,20 @@ app.get('/get-rating/:user_id/:film_id/', (req, res) => {
 
 // Route to post/update rating (used in History)
 
-  app.patch('/update-rating/:user_id/:film_id', (req, res) => {
+  app.patch('/update-stats/:user_id/:film_id', (req, res) => {
     const user_id = req.params.user_id;
     const film_id = req.params.film_id;
     const user_rating = req.body.rating;
     const user_review = req.body.review;
+    const user_progress = req.body.progress;
 
     db.query(
-      `UPDATE user_stats 
-      SET user_rating = IFNULL(?, user_rating), review = IFNULL(?, review)
-      WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_rating, user_review, user_id, film_id], (err, results, fields) => {
+      `UPDATE user_stats SET
+      user_rating = IFNULL(?, user_rating),
+      review = IFNULL(?, review),
+      progress = IFNULL(?, progress),
+      status = IF(IFNULL(?, progress) = 100, 'watched', 'not watched')
+      WHERE user_id = ? AND film_id = ?`, [user_rating, user_review, user_progress, user_progress, user_id, film_id], (err, results, fields) => {
       
       if (err) throw err;
       res.status(200).json({
@@ -280,6 +284,55 @@ app.get('/profile_get/:user_id/review', (req, res) => {
     res.json(results);
   });
 });
+
+// Route to get To Watch films and user_stats (used in To Watch page )
+
+app.get('/all-toWatch/:user_id/', (req, res) => {
+  const user_id = req.params.user_id;
+
+  db.query(
+    `SELECT 
+    mi.ID AS movieId, 
+    mi.Title AS title,
+    mi.Image AS thumbnail, 
+    mi.Description AS description,
+    mi.Length AS length, 
+    mi.Rating AS rating, 
+    mi.Available_Platform AS platform,
+    us.progress AS progress
+
+
+    FROM movie_info AS mi 
+    JOIN user_stats AS us ON us.film_id = mi.ID
+    WHERE us.user_id = ? AND us.status = 'not watched';`, 
+    [user_id], (err, results, fields) => {
+      if (err) throw err;
+      res.status(200).json(results);
+
+ });
+}); 
+
+app.get('/random-film/:user_id/', (req, res) => {
+  const user_id = req.params.user_id;
+  db.query(
+    `SELECT 
+    mi.ID AS movieId, 
+    mi.Title AS title,
+    mi.Image AS thumbnail, 
+    mi.Description AS description,
+    mi.Length AS length, 
+    mi.Rating AS rating
+    FROM movie_info AS mi 
+    JOIN user_stats AS us ON us.film_id = mi.ID
+    WHERE us.user_id = ? AND us.status = 'not watched'
+    ORDER BY RAND()
+    LIMIT 1;`,
+
+    [user_id], (err, results, fields) => {
+      if (err) throw err;
+      res.status(200).json(results);
+ });
+}); 
 
 
 app.listen(port, () => {

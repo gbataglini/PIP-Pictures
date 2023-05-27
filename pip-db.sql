@@ -34,7 +34,7 @@ CREATE TABLE user_stats (
   review VARCHAR(1000),
   status ENUM('watched', 'not watched') NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user_info(user_id),
-  FOREIGN KEY (film_id) REFERENCES movie_info(ID)
+  FOREIGN KEY (film_id) REFERENCES movie_info(ID),
 );
 
 INSERT INTO user_info (
@@ -70,6 +70,8 @@ Rating,
 Available_platform)
 VALUES (
 12, 'Test', 'Test', 'Test', 1.5, 'Test', 'test', '2023-01-01', 5.0, 'test');
+
+ALTER TABLE user_stats ADD progress INT CHECK (progress BETWEEN 0 AND 100) NOT NULL DEFAULT 0;
 
 SELECT * FROM user_stats;
 SELECT * FROM movie_info;
