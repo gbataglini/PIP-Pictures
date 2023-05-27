@@ -8,6 +8,7 @@ function Row({ title, fetchUrl }) {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
+        setMovies([]);
         async function fetchData() {
             const request = await axios.get(fetchUrl);
             setMovies(request.data.results);
