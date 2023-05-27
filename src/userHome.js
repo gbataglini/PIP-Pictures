@@ -16,9 +16,6 @@ function userHome() {
           <Row title="Upcoming" fetchUrl={requests.fetchUpComing} />
         
 
-
-
-            
         </div>
     );
 }
