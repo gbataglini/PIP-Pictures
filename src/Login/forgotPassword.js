@@ -36,6 +36,23 @@ export default function ForgotPassword() {
             console.log('Error fetching data:', error);
             alert("Email address not recognised.");
         }
+
+        return (
+            <div className='question'>
+                <p>securityQ</p>
+                <div className='answer'>
+                <FormControl>
+                <TextField
+                id="answerInput"
+                label="Answer"
+                value={answerInput}
+                type="answer"
+                onChange={handleChangeAnswer}
+                onKeyDown= {handleKeyPressB}/>
+                </FormControl>
+            </div>
+            </div>
+        )
     }
 
     const handleKeyPressA = e => {
@@ -78,7 +95,7 @@ export default function ForgotPassword() {
                 onChange={handleChangeEmail}
                 onKeyDown= {handleKeyPressA}/>
                 </FormControl>
-                {securityQ && <p>{securityQ}</p>}
+                {/* {securityQ && <p>{securityQ}</p>}
                 {securityQ && 
                 <FormControl>
                 <TextField
@@ -88,7 +105,7 @@ export default function ForgotPassword() {
                 type="answer"
                 onChange={handleChangeAnswer}
                 onKeyDown= {handleKeyPressB}/>
-                </FormControl>}
+                </FormControl>} */}
                 </Box>
             </div>
         </div>
