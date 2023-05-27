@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { useState, useEffect } from 'react';
-
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css'
 
 
@@ -41,8 +40,8 @@ export default function LoginForm() {
     }
 
     if (usernameInput === '' || passwordInput === '') {
-      console.log(`hi`)
-      nav("/denied")
+      console.log(`hi`);
+      alert("It doesn't look like you have an account with us :(")
     }
 
     else if (username === usernameInput && password === passwordInput) {
@@ -53,14 +52,18 @@ export default function LoginForm() {
       console.log(username)
       console.log(usernameInput)
       console.log(data)
-      nav("/denied")
+      alert("It doesn't look like you have an account with us :(")
       return
     }
   }
 
-  const handleTrigger = () => {
-    fetchCreds()
+  const handleLogin = () => {
+    fetchCreds();
   };
+
+  const handleForgotPass = () => {
+    nav("/forgot_password");
+  }
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
@@ -110,7 +113,8 @@ export default function LoginForm() {
             />
           </FormControl>
         </Box>
-        <button onClick={handleTrigger}>Login</button>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleForgotPass}>Forgot Password</button>
       </div>
     </div>
     </div>

@@ -38,7 +38,7 @@ app.get('/username_get/:username', (req, res) => {
 // Route to get security question and answer
 app.get('/security_get/:email', (req, res) => {
   const email = req.params.email;
-  db.query('SELECT user_id, security_q, security_a FROM user_info WHERE username = ?', [email], (err, results, fields) => {
+  db.query('SELECT user_id, security_q, security_a FROM user_info WHERE email = ?', [email], (err, results, fields) => {
     if (err) throw err;
     res.json(results[0]);
   });

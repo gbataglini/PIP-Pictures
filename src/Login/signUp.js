@@ -83,6 +83,8 @@ export default function LoginForm() {
   return (
     <div>
       <div className="container flex">
+        // TODO:
+        // Add photo
       <div className="item">(photo)</div>
 
       <div className="item">
