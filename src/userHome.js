@@ -14,9 +14,6 @@ function userHome() {
             
             <Navbar/>
 
-
-
-            
         </div>
     );
 }
