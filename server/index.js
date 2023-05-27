@@ -16,13 +16,13 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-// Route to get user info
+// Route to get user info (used in Profile )
 app.get('/user_get/:user_id', (req, res) => {
     const user_id = req.params.user_id;
     console.log(user_id);
     db.query('SELECT * FROM user_info WHERE user_id = ?', [user_id], (err, results, fields) => {
       if (err) throw err;
-      res.json(results[0]);
+      res.json(results);
     });
 });
 
@@ -132,13 +132,13 @@ app.post('/film_new/:film_id', (req, res) => {
     });
 });
 
-// Route to fetch stats
+// Route to fetch stats (used in Profile)
 app.get('/profile_get/:user_id/summary', (req, res) => {
   const user_id = req.params.user_id;
 
   const totalsQuery = `
     SELECT
-      SUM(mi.Length) AS totalLength,
+      FORMAT(SUM(mi.Length / 60), 2) AS totalLength,
       COUNT(us.film_id) AS totalWatchedFilms,
       COUNT(us.review) AS totalReviews
     FROM movie_info AS mi
@@ -163,6 +163,125 @@ app.get('/profile_get/:user_id/summary', (req, res) => {
   });
 });
 
+
+// Route to see rating (used in History)
+app.get('/get-rating/:user_id/:film_id/', (req, res) => {
+  const user_id = req.params.user_id;
+  const film_id = req.params.film_id;
+  db.query(
+    `SELECT user_rating AS userRating, review AS userReview FROM user_stats 
+    WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_id, film_id], (err, results, fields) => {
+      if (err) throw err;
+      const {
+        userRating = 0,
+        userReview = '',
+      } = results[0];
+      
+      res.status(200).json({
+        userRating, 
+        userReview
+      });
+
+     });
+  });
+
+// Route to post/update rating (used in History)
+
+  app.patch('/update-rating/:user_id/:film_id', (req, res) => {
+    const user_id = req.params.user_id;
+    const film_id = req.params.film_id;
+    const user_rating = req.body.rating;
+    const user_review = req.body.review;
+
+    db.query(
+      `UPDATE user_stats 
+      SET user_rating = IFNULL(?, user_rating), review = IFNULL(?, review)
+      WHERE user_id = ? AND film_id = ? AND status = 'watched'`, [user_rating, user_review, user_id, film_id], (err, results, fields) => {
+      
+      if (err) throw err;
+      res.status(200).json({
+        message: `Review/Rating for film ${film_id} updated successfully.`
+     });
+
+   });
+ }); 
+
+
+
+// Route to get watched films and user_stats (used in History page )
+
+app.get('/all-watched/:user_id/', (req, res) => {
+  const user_id = req.params.user_id;
+
+  db.query(
+    `SELECT 
+    mi.ID AS movieId, 
+    mi.Title AS title,
+    mi.Image AS thumbnail, 
+    us.user_rating AS rating, 
+    us.review AS review
+    FROM movie_info AS mi 
+    JOIN user_stats AS us ON us.film_id = mi.ID
+    WHERE us.user_id = ? AND us.status = 'watched';`, 
+    [user_id], (err, results, fields) => {
+      if (err) throw err;
+      res.status(200).json(results);
+
+ });
+}); 
+
+// Route to update user email (used in Profile)
+app.post('/user_update_email/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const email = req.body.email;
+
+  const updateEmailQuery = 'UPDATE user_info SET email = ? WHERE user_id = ?';
+  const queryParams = [email, user_id];
+
+  db.query(updateEmailQuery, queryParams, (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Route to update user password (used in Profile)
+app.post('/user_update_password/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const password = req.body.password;
+
+  const updatePasswordQuery = 'UPDATE user_info SET password = ? WHERE user_id = ?';
+  const queryParams = [password, user_id];
+
+  db.query(updatePasswordQuery, queryParams, (err, results, fields) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Route to get movie_title and rating (used in Profile)
+app.get('/profile_get/:user_id/review', (req, res) => {
+  const user_id = req.params.user_id;
+
+  const reviewQuery = `
+    SELECT
+    mi.title, us.user_rating 
+    FROM movie_info AS mi
+    JOIN user_stats AS us ON mi.ID = us.film_id
+    WHERE us.user_id = ? AND us.status = 'watched'
+  `;
+
+  db.query(reviewQuery, [user_id], (err, results, fields) => {
+    if (err) throw err;
+
+    const title = req.body.title
+    const rating = req.body.user_rating;
+    
+
+    res.json(results);
+  });
+});
+
+
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+console.log(`App listening at http://localhost:${port}`);
 });
