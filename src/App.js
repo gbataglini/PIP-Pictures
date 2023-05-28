@@ -10,9 +10,23 @@ import Hero from './Hero';
 import UserProfile from './Profile';
 import ToWatch from './toWatch';
 import SearchResults from './searchResults'
+import { yellow, grey } from '@mui/material/colors';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: yellow[500],
+      },
+      secondary: {
+        main: grey[50],
+      }
+    },
+  });
 
 export default function App() {
     return(
+        <ThemeProvider theme={theme}>
         <Routes>
             <Route path="/" element={<Hero />} />
             <Route path="/signup" element={<SignUpForm />} />
@@ -24,5 +38,6 @@ export default function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/search" element={<SearchResults />} />
         </Routes>
+        </ThemeProvider>
     );
 }

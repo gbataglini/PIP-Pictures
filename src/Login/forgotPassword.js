@@ -17,7 +17,7 @@ export default function ForgotPassword() {
     };
 
     const SecurityCheck = async () => {
-        console.log(`Doing something`)
+        console.log(`Working`)
 
         let securityQ = '';
         let securityA = '';
@@ -49,17 +49,29 @@ export default function ForgotPassword() {
         <div className='container'>
             <div className='item'>
                 <header>
-                    <h3>Please enter your email address</h3>
+                    <h2>Please enter your email address</h2>
                 </header>
+                <div className="forms">
                 <Box
                 component="form"
                 className="FormBox"
                 sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
-                '& .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root': {color: '#FFEC3E'},
-                '& .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {color: '#FFEC3E'},
-                '& .MuiFormLabel-colorPrimary': {color: '#FFEC3E'},
-                '& .MuiInputLabel-animated': {color: '#FFEC3E'}
+                '& label': {
+                    color: '#F6F6F6',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#F6F6F6',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#F6F6F6',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#F6F6F6',
+                  },
+                  '& input': {
+                    color: '#FFEC3E',
+                  },
                 }}
                 noValidate
                 autoComplete="off"
@@ -74,6 +86,7 @@ export default function ForgotPassword() {
                 onKeyDown= {handleKeyPress}/>
                 </FormControl>
                 </Box>
+                </div>
                 {displayQuestion && <QuestionDisplay question={securityQuestion} answer={securityAnswer} />}
             </div>
         </div>

@@ -28,3 +28,19 @@
   .StyledButton1 + .StyledButton1 {
     margin-left: 10px;
   }
+ 
+  .profile-box {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .profile-box > * {
+    margin: 20px;
+    flex: 0 0 auto;
+    width: 400px;
+    height: auto;
+  }
+  .profile-box h4 {
+    margin-bottom: 20px;
+  }
+  
