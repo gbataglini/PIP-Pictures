@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';
+import Rating from '@mui/material/Rating';                                  
 import StarIcon from '@mui/icons-material/Star';
 
 
@@ -96,18 +96,26 @@ const UserProfile = () => {
         setLoading(false);
       });
 
-
-    
      fetch("http://localhost:4000/profile_get/1/review")
-     .then((response) => response.json())
+     .then((response) => {
+     if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error("Error fetching user rating");
+    }
+     })
      .then((data) => {
        const titles = data.map((review) => review.title);
        const ratings = data.map((review) => review.user_rating);
        setTitle(titles);
        setRating(ratings);
+       setUserData(data);
+       setLoading(false);
      })
      .catch((error) => {
        console.error("Error fetching user rating:", error);
+       setError(error);
+       setLoading(false);
      });
    
       fetch("http://localhost:4000/profile_get/1/summary")
@@ -197,11 +205,12 @@ const UserProfile = () => {
               </DialogActions>
               </Dialog>
       </div>
+      
 <div className="watched-films">
   <h2>Watched Films</h2>
   <table className="films-table">
     <tbody>
-      {title && user_rating && title.map((filmTitle, index) => (
+      {title.length > 0 && user_rating.length > 0 && title.map((filmTitle, index) => (
           <tr key={index}>
             <td>
               <h4>{filmTitle}</h4>
