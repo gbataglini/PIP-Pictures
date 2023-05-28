@@ -51,8 +51,10 @@ app.post('/user_new', (req, res) => {
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
+    const question = req.body.question;
+    const answer = req.body.answer;
     console.log(`Adding user...`);
-    db.query('INSERT INTO user_info (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)', [fname, lname, email, username, password], (err, results, fields) => {
+    db.query('INSERT INTO user_info (first_name, last_name, email, username, password, security_q, security_a) VALUES (?, ?, ?, ?, ?, ?, ?)', [fname, lname, email, username, password, question, answer], (err, results, fields) => {
       if (err) throw err;
       res.json({ message: `User has been added` });
     });
