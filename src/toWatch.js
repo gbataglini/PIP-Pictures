@@ -168,7 +168,7 @@ export default function ToWatch() {
           <Item>
           <div className="filmCell">
             <div classname="filmCover">
-              <img src={movie.thumbnail} width='325' height='450' alt="movie cover"/>
+              <img src={movie.thumbnail} alt="movie cover"/>
             </div>
             <div className="textInfo">
               <h2>{movie.title}</h2>

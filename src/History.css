@@ -10,6 +10,7 @@ html{
 .filmCover {
   display: flex;
   width: 40%;
+
 }
 .textInfo {
   text-align: left;
@@ -19,6 +20,7 @@ html{
   align-items: flex-start;
   flex-direction: column;
   width: 60%;
+  
 }
 
 .horizontal {
@@ -27,8 +29,6 @@ html{
   margin: 0;
   padding: 5px;
 }
-
-
 
 p {
   color: white;

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import TextField from '@mui/material/TextField';
+import header2 from './header2.png';
 
   
   const Item = styled(Paper)(({ theme }) => ({
@@ -49,7 +50,19 @@ import TextField from '@mui/material/TextField';
 
       return (
       <Box sx={{ flexGrow: 1 }}>
-          <Navbar />  
+
+      <div style = {{backgroundImage: `url(${header2})`, 
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            height: '450px',
+            backgroundColor: 'rgba(2, 0, 0, 0.1)'
+          }}> 
+          <Navbar />
+          <header style = {{justifyContent: 'start', lineHeight: '150px', alignItems: 'flex-start', paddingLeft: '120px'}}>
+            <h1 style = {{color:'#FFEC3E'}}> Watched </h1>
+            <h3></h3>
+          </header>
+      </div>
 
       <Box sx={{ flexGrow: 1, padding: 5 }}>  
   
@@ -60,7 +73,7 @@ import TextField from '@mui/material/TextField';
             <Item>
             <div className="filmCell">
               <div classname="filmCover">
-                <img src={movie.thumbnail} width='325' height='450' alt="movie poster"/>
+                <img src={movie.thumbnail} alt="movie poster"/>
               </div>
               <div className="textInfo">
                 <h2>{movie.title}</h2>
