@@ -12,10 +12,22 @@ function UserHome() {
         <div className="UserHome">
             <Navbar/>
             <Banner />
-          <h1>  </h1>
-          <Row title="Trending Now" fetchUrl={requests.fetchTrending} />
-          <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
-          <Row title="Upcoming" fetchUrl={requests.fetchUpComing} />
+          
+          <Row 
+          title="Trending Now" 
+          fetchUrl={requests.fetchTrending} 
+          isLargeRow
+          />
+          
+          <Row title="Top Rated" 
+          fetchUrl={requests.fetchTopRated} 
+          isLargeRow
+          />
+
+          <Row title="Upcoming" 
+          fetchUrl={requests.fetchUpComing} 
+          isLargeRow
+          />
     
         </div>
     );

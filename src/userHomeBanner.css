@@ -1,5 +1,5 @@
 .banner{
-    color: white;
+    color: rgba(255, 255, 255, 0.234);
     object-fit: contain;
     height: 200px;
 }
@@ -18,27 +18,35 @@
 }
 
 .banner__button {
-    justify-content: centre;
     cursor: pointer;
-    color: white;  
+    color: rgb(255, 255, 255);  
     outline: none;
     border: none;
     font-weight: 700;
     border-radius: 0.2vw;
     padding-left: 2rem;
     padding-right: 2rem;
-    margin-right: -4rem;
-    margin-left: 4.5rem;
+    margin-right: -3.8rem;
+    margin-left: 4.2rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     background-color: rgba(255, 255, 255, 0.211);   
 }
 
+
 .banner__button:hover {
     background-color: #ffec3e;
     color: rgb(80, 77, 77);   
-    transition: all 0.2s;
-    
+    transition: all 0.3s;
 }
 
 
+.banner--fadeBottom {
+    height: 7.4rem;
+    background-image: linear-gradient(
+        180deg,
+        transparent,
+        rgba(37, 37, 37, 0.61)
+        #6e6c6c
+        );
+}
