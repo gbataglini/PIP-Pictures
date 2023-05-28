@@ -60,6 +60,7 @@ const LoginForm = ({ loginSuccess, loginFailure }) => {
       console.log(username)
       console.log(usernameInput)
       console.log(data)
+      alert("Login credentials not recognised.")
       loginFailure('Login failed.')
       return
     }
