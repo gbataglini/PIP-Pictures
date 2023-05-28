@@ -5,7 +5,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* background-color: red; */
 }
 
 .container {
@@ -13,7 +12,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color:aqua; */
 }
 
 .item {
@@ -21,7 +19,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: grey; */
     padding: 50px;
     border: 1px solid #FFEC3E;
 }
