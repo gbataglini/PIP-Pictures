@@ -1,6 +1,7 @@
 .container {
     padding: 5rem;
     display: flex;
+    margin-top: 100px;
 }
 
 .item {
@@ -21,9 +22,8 @@ h2 {
     flex-direction: column;
 }
 
-button {
-    /* width: 30px;
-    height: 30px; */
+button { 
+    padding: 5px;
     background-color: #FFEC3E;
 }
 

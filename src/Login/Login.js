@@ -1,13 +1,14 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { useState, useEffect } from 'react';
-
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loginSuccess, loginFailure } from './actions';
 import './Login.css'
 
 
-export default function LoginForm() {
+const LoginForm = ({ loginSuccess, loginFailure }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
@@ -21,7 +22,7 @@ export default function LoginForm() {
     setPasswordInput(e.target.value);
   };
 
-  const fetchCreds = async () => {
+  const handleLogin = async () => {
     console.log(`doing something`)
 
     let userID='';
@@ -41,30 +42,36 @@ export default function LoginForm() {
     }
 
     if (usernameInput === '' || passwordInput === '') {
-      console.log(`hi`)
-      nav("/denied")
+      console.log(`hi`);
+      loginFailure();
+      alert("Please ensure you have filled all fields.")
     }
 
     else if (username === usernameInput && password === passwordInput) {
       console.log(`yes`)
+      loginSuccess(userID, username);
       nav("/home");
     } else {
       console.log(`no`)
       console.log(username)
       console.log(usernameInput)
       console.log(data)
-      nav("/denied")
+      loginFailure('Login failed.')
       return
     }
   }
 
-  const handleTrigger = () => {
-    fetchCreds()
+  const triggerLogin = () => {
+    handleLogin();
   };
+
+  const handleForgotPass = () => {
+    nav("/forgot_password");
+  }
 
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      fetchCreds();
+      handleLogin();
     }
   };
 
@@ -110,10 +117,13 @@ export default function LoginForm() {
             />
           </FormControl>
         </Box>
-        <button onClick={handleTrigger}>Login</button>
+        <button onClick={triggerLogin}>Login</button>
+        <button onClick={handleForgotPass}>Forgot Password</button>
       </div>
     </div>
     </div>
     
   );
 }
+
+export default connect(null, { loginSuccess, loginFailure })(LoginForm);

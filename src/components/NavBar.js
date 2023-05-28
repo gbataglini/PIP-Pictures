@@ -95,7 +95,7 @@ function NavBar() {
   }));
 
   return (
-    <AppBar position="static"  sx={{ bgcolor: "transparent", padding: "10px"}}>
+    <AppBar elevation={0} position="static"  sx={{ bgcolor: "transparent", padding: "10px"}}>
       <Container maxWidth="l">
         <Toolbar disableGutters>
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/FFEC3E/kitty.svg" alt="kitty"/>
