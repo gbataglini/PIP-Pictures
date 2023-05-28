@@ -1,11 +1,17 @@
 import "./Hero.css";
+import { Link, useNavigate } from 'react-router-dom';
+
+
 function Hero() {
+
   return (
     <section className="hero">
       <div className="content">
         <nav className="navbar">
           <img src="logo.png" alt="logo" />
-          <button className="sign-btn">Sign In</button>
+          <Link to='/login'>
+            <button className="sign-btn">Sign In</button>
+          </Link>
         </nav>
         <div className="hero-text">
           <div className="hero-text-content">
@@ -23,7 +29,9 @@ function Hero() {
           </p>
         </div>
         <div className="btn">
-          <button className="join-btn">Join the Club</button>
+          <Link to='/signup'>
+            <button className="join-btn">Join the Club</button>
+          </Link>
         </div>
       </div>
       <div className="copyright">
