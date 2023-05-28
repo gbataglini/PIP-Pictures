@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import requests from './requests';
 import "./userHomeBanner.css";
-
+import { Link, useNavigate } from 'react-router-dom';
 
 function Banner() {
     const [movie, setMovie] = useState([]);
@@ -36,22 +36,21 @@ function Banner() {
             <h1 className="banner__title"> Welcome Back!</h1>
 
             <div className="banner__buttons">
-                <button className="banner__button">Search</button>
+            <button className="banner__button">Search </button>
+
+             <Link to='/ToWatch'> 
                 <button className="banner__button">My List</button>
-
-            </div>
-            
-
-
+            </Link> 
             </div>
             
             
-       
-
-
-
+            </div>
+            <div className="banner__fadeBottom" />
+            
+            
         </header>
 
     )}
 
     export default Banner;
+
