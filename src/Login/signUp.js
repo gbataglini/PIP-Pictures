@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
 import './Login.css'
 
 
@@ -54,7 +55,7 @@ export default function LoginForm() {
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
-      })
+      });
       console.log(response);
       const jsonData = await response.json();
       userID = (jsonData.user_id);
@@ -66,7 +67,7 @@ export default function LoginForm() {
   }
 
   useEffect( () => {
-    console.log(`doing something`)
+    console.log(`working`)
   }, [triggered]); 
 
   const handleTrigger = () => {
@@ -82,81 +83,90 @@ export default function LoginForm() {
 
   return (
     <div>
-      <div className="container flex">
-        // TODO:
-        // Add photo
-      <div className="item">(photo)</div>
-
-      <div className="item">
-        <header>
-          <h2>Join the club!</h2>
-        </header>
-        <Box
-        component="form"
-        className="FormBox"
-        sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-        '& .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root': {color: '#FFEC3E'},
-        '& .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {color: '#FFEC3E'},
-        '& .MuiFormLabel-colorPrimary': {color: '#FFEC3E'},
-        '& .MuiInputLabel-animated': {color: '#FFEC3E'}
-        }}
-        noValidate
-        autoComplete="off"
-        >
-            <FormControl>
-            <TextField
-            id="firstnameInput"
-            label="First Name"
-            value={firstnameInput}
-            type="firstname"
-            onChange={handleChangeFirstName}
-            onKeyDown={handleKeyPress}
-            />
-            </FormControl>
-            <FormControl>
-            <TextField
-            id="lastnameInput"
-            label="Last Name"
-            value={lastnameInput}
-            type="lastname"
-            onChange={handleChangeLastName}
-            onKeyDown={handleKeyPress}
-            />
-            </FormControl>
-            <FormControl>
-            <TextField
-            id="emailInput"
-            label="Email"
-            value={emailInput}
-            type="email"
-            onChange={handleChangeEmail}
-            onKeyDown={handleKeyPress}
-            />
-            </FormControl>
-            <FormControl>
-            <TextField
-            id="usernameInput"
-            label="Username"
-            value={usernameInput}
-            type="username"
-            onChange={handleChangeUsername}
-            onKeyDown={handleKeyPress}
-            />
-            </FormControl>
-            <FormControl>
-            <TextField
-            id="passwordInput"
-            label="Password"
-            value={passwordInput}
-            type="password"
-            onChange={handleChangePassword}
-            onKeyDown={handleKeyPress}
-            />
-          </FormControl>
-        </Box>
-        <button onClick={handleTrigger}>Sign Up</button>
-      </div>
+    <div className="container flex">
+        <div className="item">
+            <header>
+                <h2>Join the club!</h2>
+            </header>
+            <Box
+            component="form"
+            className="FormBox"
+            sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+            '& label': {
+                color: '#F6F6F6',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#F6F6F6',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#F6F6F6',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#F6F6F6',
+            },
+            '& input': {
+                color: '#FFEC3E',
+            },
+            }}
+            noValidate
+            autoComplete="off"
+            >
+                <FormControl>
+                    <TextField
+                    id="firstnameInput"
+                    label="First Name"
+                    value={firstnameInput}
+                    type="firstname"
+                    onChange={handleChangeFirstName}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="lastnameInput"
+                    label="Last Name"
+                    value={lastnameInput}
+                    type="lastname"
+                    onChange={handleChangeLastName}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="emailInput"
+                    label="Email"
+                    value={emailInput}
+                    type="email"
+                    onChange={handleChangeEmail}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="usernameInput"
+                    label="Username"
+                    value={usernameInput}
+                    type="username"
+                    onChange={handleChangeUsername}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="passwordInput"
+                    label="Password"
+                    value={passwordInput}
+                    type="password"
+                    onChange={handleChangePassword}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+            </Box>
+            <div className='buttons'>
+                <Button onClick={handleTrigger} variant="contained">Sign Up</Button>
+            </div>
+        </div>
     </div>
     </div>
     

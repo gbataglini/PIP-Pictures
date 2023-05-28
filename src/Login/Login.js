@@ -5,7 +5,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginSuccess, loginFailure } from './actions';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
 import './Login.css'
+
 
 
 const LoginForm = ({ loginSuccess, loginFailure }) => {
@@ -23,7 +27,7 @@ const LoginForm = ({ loginSuccess, loginFailure }) => {
   };
 
   const handleLogin = async () => {
-    console.log(`doing something`)
+    console.log(`Working`)
 
     let userID='';
     let username='';
@@ -42,7 +46,7 @@ const LoginForm = ({ loginSuccess, loginFailure }) => {
     }
 
     if (usernameInput === '' || passwordInput === '') {
-      console.log(`hi`);
+      console.log(`working`);
       loginFailure();
       alert("Please ensure you have filled all fields.")
     }
@@ -78,49 +82,63 @@ const LoginForm = ({ loginSuccess, loginFailure }) => {
   return (
     <div>
       <div className="container flex">
-
-      <div className="item">
-        <header>
-          <h2>Welcome back!</h2>
-        </header>
-        <Box
-        component="form"
-        className="FormBox"
-        sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-        '& .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root': {color: '#FFEC3E'},
-        '& .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {color: '#FFEC3E'},
-        '& .MuiFormLabel-colorPrimary': {color: '#FFEC3E'},
-        '& .MuiInputLabel-animated': {color: '#FFEC3E'}
-        }}
-        noValidate
-        autoComplete="off"
-        >
-          <FormControl>
-            <TextField
-            id="usernameInput"
-            label="Username"
-            value={usernameInput}
-            type="username"
-            onChange={handleChangeUsername}
-            onKeyDown={handleKeyPress}
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-            id="passwordInput"
-            label="Password"
-            value={passwordInput}
-            type="password"
-            onChange={handleChangePassword}
-            onKeyDown={handleKeyPress}
-            />
-          </FormControl>
-        </Box>
-        <button onClick={triggerLogin}>Login</button>
-        <button onClick={handleForgotPass}>Forgot Password</button>
+        <div className="item">
+          <header>
+            <h2>Welcome back!</h2>
+          </header>
+          <Box
+          component="form"
+          className="FormBox"
+          sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          '& label': {
+            color: '#F6F6F6',
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#F6F6F6',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#F6F6F6',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#F6F6F6',
+          },
+          '& input': {
+            color: '#FFEC3E',
+          },
+          }}
+          noValidate
+          autoComplete="off"
+          >
+            <FormControl>
+              <TextField
+              id="usernameInput"
+              label="Username"
+              value={usernameInput}
+              type="username"
+              onChange={handleChangeUsername}
+              onKeyDown={handleKeyPress}
+             />
+            </FormControl>
+            <FormControl>
+              <TextField
+              id="passwordInput"
+              label="Password"
+              value={passwordInput}
+              type="password"
+              onChange={handleChangePassword}
+              onKeyDown={handleKeyPress}
+              />
+            </FormControl>
+          </Box>
+          <div className="buttons">
+            <Stack direction="column" spacing={1}>
+              <Button onClick={triggerLogin} variant="contained">Login</Button>
+              <Button onClick={handleForgotPass} variant="contained">Forgot Password</Button>
+            </Stack>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
     
   );
