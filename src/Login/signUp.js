@@ -14,6 +14,8 @@ export default function LoginForm() {
   const [firstnameInput, setFirstnameInput] = useState("");
   const [lastnameInput, setLastnameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
+  const [questionInput, setQuestionInput] = useState("");
+  const [answerInput, setAnswerInput] = useState("");
 
   const nav = useNavigate();
 
@@ -37,6 +39,14 @@ export default function LoginForm() {
     setEmailInput(e.target.value);
   };
 
+  const handleChangeQuestion = e => {
+    setQuestionInput(e.target.value);
+  };
+
+  const handleChangeAnswer = e => {
+    setAnswerInput(e.target.value);
+  };
+
   const fetchCreds = async () => {
     console.log(`doing something`)
 
@@ -51,11 +61,15 @@ export default function LoginForm() {
             email: emailInput,
             username: usernameInput,
             password: passwordInput,
+            question: questionInput,
+            answer: answerInput,
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
       });
+      console.log(questionInput);
+      console.log(answerInput);
       console.log(response);
       const jsonData = await response.json();
       userID = (jsonData.user_id);
@@ -159,6 +173,26 @@ export default function LoginForm() {
                     value={passwordInput}
                     type="password"
                     onChange={handleChangePassword}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="questionInput"
+                    label="Recovery Question"
+                    value={questionInput}
+                    type="question"
+                    onChange={handleChangeQuestion}
+                    onKeyDown={handleKeyPress}
+                    />
+                </FormControl>
+                <FormControl>
+                    <TextField
+                    id="answerInput"
+                    label="Recovery Answer"
+                    value={answerInput}
+                    type="answer"
+                    onChange={handleChangeAnswer}
                     onKeyDown={handleKeyPress}
                     />
                 </FormControl>
