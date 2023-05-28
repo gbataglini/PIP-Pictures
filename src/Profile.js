@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import './Profile.css';
 import NavBar from './components/NavBar.js';
 import Box from '@mui/material/Box';
@@ -7,11 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';                                  
+import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 
-
-const UserProfile = () => {
+const UserProfile = ({ isLoggedIn, userID, logout }) => {
+  const userId = useSelector((state) => state.user_iD);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [userData, setUserData] = useState(null);
@@ -26,6 +28,7 @@ const UserProfile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [title, setTitle] = useState([]);
   const [user_rating, setRating] = useState([]);
+  const { last_name, first_name } = userData;
 
   const handleOpenEmailDialog = () => {
     setOpenEmailDialog(true);
@@ -44,6 +47,7 @@ const UserProfile = () => {
     setOpenPasswordDialog(false);
     setNewPassword('');
   };
+  
   const handleUpdateEmail = () => {
     fetch(`http://localhost:4000/user_update_email/${userData.user_id}`, {
       method: 'POST',
@@ -81,7 +85,7 @@ const UserProfile = () => {
   };
   
   useEffect(() => {
-    fetch("http://localhost:4000/user_get/1")
+    fetch(`http://localhost:4000/user_get/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         const user = data[0];
@@ -92,33 +96,30 @@ const UserProfile = () => {
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
-        setError("Error fetching user data. Please try again later: " + error.message);
+        setError('Error fetching user data. Please try again later: ' + error.message);
         setLoading(false);
       });
 
-     fetch("http://localhost:4000/profile_get/1/review")
-     .then((response) => {
-     if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error("Error fetching user rating");
-    }
-     })
-     .then((data) => {
-       const titles = data.map((review) => review.title);
-       const ratings = data.map((review) => review.user_rating);
-       setTitle(titles);
-       setRating(ratings);
-       setUserData(data);
-       setLoading(false);
-     })
-     .catch((error) => {
-       console.error("Error fetching user rating:", error);
-       setError(error);
-       setLoading(false);
-     });
-   
-      fetch("http://localhost:4000/profile_get/1/summary")
+    fetch(`http://localhost:4000/profile_get/${userId}/review`)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          throw new Error("Error fetching user rating");
+        }
+      })
+      .then((data) => {
+        const titles = data.map((review) => review.title);
+        const ratings = data.map((review) => review.user_rating);
+        setTitle(titles);
+        setRating(ratings);
+      })
+      .catch((error) => {
+        console.error("Error fetching user rating:", error);
+        setError('Error fetching user rating. Please try again later: ' + error.message);
+      });
+
+    fetch(`http://localhost:4000/profile_get/${userId}/summary`)
       .then((response) => response.json())
       .then((data) => {
         const { totalLength, totalWatchedFilms, totalReviews } = data;
@@ -128,18 +129,19 @@ const UserProfile = () => {
       })
       .catch((error) => {
         console.error("Error fetching user summary:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  const { last_name, first_name } = userData;
 
   return (
     <div>
@@ -155,7 +157,7 @@ const UserProfile = () => {
           },
         }}
       >
-        <div className="box">
+        <div className="profile-box">
           <div className="user-info">
             <img style={{ padding: 0 }} width="200" height="200" src="https://img.icons8.com/ios-glyphs/30/FFEC3E/cat-profile--v1.svg" alt="cat-profile--v1"/>
             <h2>{username}</h2>
@@ -168,73 +170,89 @@ const UserProfile = () => {
           </div>
         </div>
             
-        <div className="box">
+        <div className="profile-box">
           <div className="account">
             <h2>Account Details</h2>
             <h4>Name: {first_name} {last_name}</h4>
             <h4>Email: {email}</h4>
             <button className="StyledButton1" onClick={handleOpenEmailDialog}>Update email</button>     
-              <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
-                <DialogTitle></DialogTitle>
-                <DialogContent>
-                 <TextField 
+            <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
+              <DialogTitle></DialogTitle>
+              <DialogContent>
+                <TextField 
                   label="Enter New Email"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                 />
-                </DialogContent>
-                <DialogActions>
-                 <button className="StyledButton1" onClick={handleCloseEmailDialog}>Cancel</button>
-                 <button className="StyledButton1" onClick={handleUpdateEmail}>Update</button>
-                </DialogActions>
-              </Dialog>
-
-             <button className="StyledButton1" onClick={handleOpenPasswordDialog}>Update Password</button>
-              <Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
-               <DialogTitle>Update Password</DialogTitle>
-               <DialogContent>
-               <TextField 
-                label="Enter New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-               />
+                />
               </DialogContent>
               <DialogActions>
-               <button className="StyledButton1" onClick={handleClosePasswordDialog}>Cancel</button>
-               <button className="StyledButton1"onClick={handleUpdatePassword}>Update</button>
+                <button className="StyledButton1" onClick={handleCloseEmailDialog}>Cancel</button>
+                <button className="StyledButton1" onClick={handleUpdateEmail}>Update</button>
               </DialogActions>
-              </Dialog>
-      </div>
-      
-<div className="watched-films">
-  <h2>Watched Films</h2>
-  <table className="films-table">
-    <tbody>
-      {title.length > 0 && user_rating.length > 0 && title.map((filmTitle, index) => (
-          <tr key={index}>
-            <td>
-              <h4>{filmTitle}</h4>
-            </td>
-            <td>
-            <h4>
-              <Rating
-                value={user_rating[index]}
-                name={`rating-${index}`}
-                precision={0.5}
-                icon={<StarIcon fontSize="inherit" />}
-                readOnly
-              />
-            </h4>
-            </td>
-          </tr>
-        ))}
-    </tbody>
-  </table>
-</div>
-</div>
-      </Box>
-</div>
-  
-)};
+            </Dialog>
 
-export default UserProfile;
+            <button className="StyledButton1" onClick={handleOpenPasswordDialog}>Update Password</button>
+            <Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
+              <DialogTitle>Update Password</DialogTitle>
+              <DialogContent>
+                <TextField 
+                  label="Enter New Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </DialogContent>
+              <DialogActions>
+                <button className="StyledButton1" onClick={handleClosePasswordDialog}>Cancel</button>
+                <button className="StyledButton1"onClick={handleUpdatePassword}>Update</button>
+              </DialogActions>
+            </Dialog>
+          </div>
+      
+          <div className="watched-films">
+            <h2>Watched Films</h2>
+            <table className="films-table">
+              <tbody>
+                {title.length > 0 && user_rating.length > 0 && title.map((filmTitle, index) => (
+                  <tr key={index}>
+                    <td>
+                      <h4>{filmTitle}</h4>
+                    </td>
+                    <td>
+                      <h4>
+                        <Rating
+                          value={user_rating[index]}
+                          name={`rating-${index}`}
+                          precision={0.5}
+                          icon={<StarIcon fontSize="inherit" />}
+                          readOnly
+                        />
+                      </h4>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Box>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.isLoggedIn,
+    username: state.username,
+    userID: state.userID,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => {
+      dispatch({ type: 'LOGOUT' });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
