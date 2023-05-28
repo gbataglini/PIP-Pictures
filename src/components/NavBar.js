@@ -35,8 +35,9 @@ const settings = [{
 }];
 
 function NavBar() {
-             const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  let searchInput = "";
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,6 +53,25 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleSearch = () => {
+      let formattedSearch = searchInput.replaceAll(' ', '+');
+      console.log(formattedSearch);
+        fetch(`http://www.omdbapi.com/?s=${formattedSearch}&apikey=ad06e2f2`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            
+          })
+        }).then((response) => {
+           setWatched(watched);
+        })
+        watched[index].rating = newValue
+        forceUpdate(!ignored)
+
+  }
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -93,6 +113,10 @@ function NavBar() {
       },
     },
   }));
+
+  React.useEffect(() => {
+
+  }, [searchInput])
 
   return (
     <AppBar elevation={0} position="static"  sx={{ bgcolor: "transparent", padding: "10px"}}>
@@ -167,6 +191,14 @@ function NavBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              onChange={(e) => {
+                searchInput = e.target.value;
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
