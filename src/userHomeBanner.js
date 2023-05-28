@@ -38,7 +38,7 @@ function Banner() {
             <div className="banner__buttons">
             <button className="banner__button">Search </button>
 
-             <Link to='/ToWatch'> 
+             <Link to='/to-watch'> 
                 <button className="banner__button">My List</button>
             </Link> 
             </div>
