@@ -46,7 +46,9 @@ module.exports = {
   testRegex: [],
   testResultsProcessor: undefined,
   testRunner: "jest-circus/runner",
-  transform: undefined,
+  transform: {
+    '^.+\\.[t|j]sx?$': 'babel-jest',
+  },
   transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\/]+$"],
   unmockedModulePathPatterns: [], // Add this line with an empty array
   verbose: undefined,
