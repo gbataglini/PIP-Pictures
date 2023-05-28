@@ -4,6 +4,7 @@ import './userHome.css';
 import Row from './Row.js';
 import requests from './requests.js';
 import Banner from './userHomeBanner.js';
+import SearchBar from './components/SearchBar.js';
 
 function UserHome() {
     return(
@@ -11,7 +12,6 @@ function UserHome() {
         
         <div className="UserHome">
             <Navbar/>
-            <Banner />
           
           <Row 
           title="Trending Now" 

@@ -9,6 +9,7 @@ import History from './History';
 import Hero from './Hero';
 import UserProfile from './Profile';
 import ToWatch from './toWatch';
+import SearchResults from './searchResults'
 import { yellow, grey } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/to-watch" element={<ToWatch />} />
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/search" element={<SearchResults />} />
         </Routes>
         </ThemeProvider>
     );

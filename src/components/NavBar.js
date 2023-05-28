@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';  
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 const pages = [{
   title: 'Home',
@@ -34,7 +34,7 @@ const settings = [{
   path: '/'
 }];
 
-function NavBar() {
+function NavBar({defaultValue}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   let searchInput = "";
@@ -54,23 +54,18 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
-  const handleSearch = () => {
-      let formattedSearch = searchInput.replaceAll(' ', '+');
-      console.log(formattedSearch);
-        fetch(`http://www.omdbapi.com/?s=${formattedSearch}&apikey=ad06e2f2`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            
-          })
-        }).then((response) => {
-           setWatched(watched);
-        })
-        watched[index].rating = newValue
-        forceUpdate(!ignored)
+  const nav = useNavigate();
 
+  const handleSearch = () => {
+      fetch(`http://www.omdbapi.com/?s=${searchInput.replaceAll(' ', '+')}&apikey=ad06e2f2`)
+        .then((response) => response.json())
+        .then(json => {
+          if (json.Search.length > 0) {
+            nav("/search", {state: {results: json, query: searchInput}})
+          }
+        });
+
+      //nav("/search", {state: {raw: searchInput, query: formattedSearch}})
   }
 
   const Search = styled('div')(({ theme }) => ({
@@ -106,17 +101,14 @@ function NavBar() {
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('sm')]: {
-        width: '12ch',
+        width: '20ch',
         '&:focus': {
-          width: '20ch',
+          width: '25ch',
         },
       },
     },
   }));
 
-  React.useEffect(() => {
-
-  }, [searchInput])
 
   return (
     <AppBar elevation={0} position="static"  sx={{ bgcolor: "transparent", padding: "10px"}}>
@@ -190,7 +182,8 @@ function NavBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Search for new movie..."
+              defaultValue={defaultValue}
               onChange={(e) => {
                 searchInput = e.target.value;
               }}

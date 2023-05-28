@@ -95,19 +95,21 @@ app.get('/stats_get/:user_id', (req, res) => {
 });
 
 // Route to get all movie info by user and watched/not watched
-app.get('/film_get/:user_id', (req, res) => {
+app.get('/film_get/:user_id/:film_id', (req, res) => {
     const user_id = req.params.user_id;
-    const status = req.body.status;
-    db.query('SELECT * FROM movie_info WHERE ID in (SELECT film_id from user_stats WHERE user_id = ? AND status = ?)', [user_id, status], (err, results, fields) => {
-      if (err) throw err;
+    const film_id = req.params.film_id;
+    db.query('SELECT * FROM movie_info WHERE ID in (SELECT film_id from user_stats WHERE user_id = ? AND film_id = ?)', [user_id, film_id], (err, results, fields) => {
+      if (err) {
+        res.status(404)
+      };
       res.json(results[0]);
     });
 });
 
 // Route to delete a movie from user stats
-app.delete('/film_del/:film_id', (req, res) => {
+app.delete('/film_del/:user_id/:film_id', (req, res) => {
     const user_id = req.params.user_id;
-    db.query('DELETE FROM user_stats WHERE film_id in (SELECT film_id from user_stats WHERE user_id = ? AND status = ?', [film_id, user_id], (err, results, fields) => {
+    db.query('DELETE FROM user_stats WHERE film_id = ? AND user_id = ?', [film_id, user_id], (err, results, fields) => {
         if (err) throw err;
         res.json({ message: `Film has been removed.` });
         });
@@ -334,6 +336,87 @@ app.get('/all-toWatch/:user_id/', (req, res) => {
  });
 }); 
 
+app.post('/add-film/:user_id/', (req, res) => {
+  const user_id = req.params.user_id;
+  const imdbID = req.body.imdbID;
+  const Title = req.body.Title;
+  const Description = req.body.Description;
+  const Director = req.body.Director;
+  const Length = req.body.Length;
+  const Type = req.body.Type;
+  const Image = req.body.Image;
+  const ReleaseDate = req.body.ReleaseDate;
+  const Rating = req.body.Rating; 
+
+  db.beginTransaction((err) => {
+    if (err) { throw err }
+
+    db.query(`INSERT INTO movie_info (
+      ID,
+      Title,
+      Description,
+      Director,
+      Length,
+      Type,
+      Image,
+      Release_date,
+      Rating,
+      Available_platform)
+      VALUES (
+      ?,
+      ?, 
+      ?,
+      ?, 
+      ?, 
+      ?,
+      ?,
+      ?, 
+      ?, 
+      'Netflix');`,
+    [imdbID, Title,
+    Description,
+    Director,
+    Length,
+    Type,
+    Image, 
+    ReleaseDate,
+    Rating
+    ], (err, results, fields) => {
+      if (err) {
+        console.log(err);
+          db.rollback()
+          res.status(500);
+          return;
+      }
+
+
+      db.query(`INSERT INTO user_stats (
+        user_id,
+        film_id,
+        status)
+        VALUES
+        (?, ?, 'not watched');`, [user_id, imdbID], (err, results, fields) => {
+          if (err) {
+            db.rollback()
+            res.status(500);
+            return;
+        }
+
+          db.commit((err) => {
+            if (err) {
+              db.rollback()
+              return;
+            }
+
+            res.status(201);
+          })
+        });
+
+    });
+
+  })
+
+})
 
 app.listen(port, () => {
 console.log(`App listening at http://localhost:${port}`);

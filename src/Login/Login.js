@@ -81,7 +81,7 @@ const LoginForm = ({ loginSuccess, loginFailure }) => {
   };
 
   return (
-    <div>
+    <div className="centered">
       <div className="container flex">
         <div className="item">
           <header>
